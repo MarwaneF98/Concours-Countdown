@@ -41,7 +41,7 @@ const shareBtn = document.getElementById("shareBtn");
 
 shareBtn.addEventListener("click", async () => {
   const url = window.location.href;
-  const text = "Check out this BAC 2026 Countdown! made by Akram Zekri";
+  const text = "Check out this CNC 2026 Countdown! made by Marwane Farhane";
   
 
 
