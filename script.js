@@ -30,7 +30,7 @@ const moroccanMonths = {
   9: "شتنبر", 10: "أكتوبر", 11: "نونبر", 12: "دجنبر"
 };
 
-// Expanded Database of Moroccan Exams with Official Websites
+// Expanded Database of Moroccan Exams
 const examsDB = [
   { id: "bac_nat", month: 6, day: 10, en: "National Baccalaureate", fr: "Baccalauréat National", ar: "الامتحان الوطني للبكالوريا", link: "https://massarservice.men.gov.ma/moutamadris" },
   { id: "bac_reg", month: 6, day: 5,  en: "Regional Baccalaureate", fr: "Baccalauréat Régional", ar: "الامتحان الجهوي للبكالوريا", link: "https://massarservice.men.gov.ma/moutamadris" },
@@ -45,7 +45,6 @@ const examsDB = [
   { id: "ispits",  month: 9, day: 15, en: "ISPITS (Nursing)", fr: "ISPITS (Infirmiers)", ar: "المهن التمريضية (ISPITS)", link: "https://ispits.sante.gov.ma" }
 ];
 
-// Set default to Arabic
 let currentLang = "ar";
 let countdownInterval;
 
@@ -53,19 +52,34 @@ const htmlTag = document.getElementById("htmlTag");
 const langBtns = document.querySelectorAll('.lang-btn');
 const container = document.getElementById("exams-container");
 const shareBtn = document.getElementById("shareBtn");
+const headerText = document.querySelector('.header-text');
 
 function init() {
   const activeBtn = document.querySelector('.lang-btn.active');
-  if (activeBtn) {
-    currentLang = activeBtn.getAttribute('data-lang');
-  }
+  if (activeBtn) currentLang = activeBtn.getAttribute('data-lang');
 
   langBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      langBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentLang = btn.getAttribute('data-lang');
-      updateUI();
+      if (btn.classList.contains('active')) return;
+
+      // 1. Trigger the fade-out animation
+      headerText.classList.add('content-hidden');
+      container.classList.add('content-hidden');
+      shareBtn.classList.add('content-hidden');
+
+      // 2. Wait for fade-out (300ms) before swapping content
+      setTimeout(() => {
+        langBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentLang = btn.getAttribute('data-lang');
+        
+        updateUI();
+
+        // 3. Trigger the fade-in animation
+        headerText.classList.remove('content-hidden');
+        container.classList.remove('content-hidden');
+        shareBtn.classList.remove('content-hidden');
+      }, 300);
     });
   });
   
@@ -106,7 +120,7 @@ function updateUI() {
 function renderExams() {
   container.innerHTML = "";
   
-  examsDB.forEach(exam => {
+  examsDB.forEach((exam, index) => {
     const targetInfo = getNextExamDate(exam.month, exam.day);
     let dateString = "";
 
@@ -122,6 +136,10 @@ function renderExams() {
 
     const card = document.createElement("div");
     card.className = "exam-card";
+    
+    // Add staggered animation delay based on index (0s, 0.08s, 0.16s, etc.)
+    card.style.animationDelay = `${index * 0.08}s`;
+
     card.innerHTML = `
       <div class="exam-title">${exam[currentLang]}</div>
       <div class="exam-subtitle">${i18n[currentLang].countdownTo} ${dateString}</div>
@@ -186,9 +204,7 @@ function startCountdowns() {
 
 function setValue(id, value) {
   const el = document.getElementById(id);
-  if (el && el.innerText != value) {
-    el.innerText = value; 
-  }
+  if (el && el.innerText != value) el.innerText = value; 
 }
 
 shareBtn.addEventListener("click", async () => {
