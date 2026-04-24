@@ -10,36 +10,21 @@
 
 <div class="container">
   
-  <div class="controls">
-    <select id="examSelect"></select>
-    <select id="langSelect">
-      <option value="en">English</option>
-      <option value="fr">Français</option>
-      <option value="ar">العربية</option>
-    </select>
-  </div>
-
-  <div id="title" class="title">CNC 2026</div>
-  <div id="subtitle" class="subtitle">Countdown</div>
-
-  <div class="countdown">
-    <div class="time-box">
-      <div id="days" class="number">0</div>
-      <div id="label-days" class="label">DAYS</div>
+  <div class="header">
+    <div class="header-text">
+      <h1 id="main-title">Moroccan Exams</h1>
+      <p id="main-subtitle">Track every major concours and exam</p>
     </div>
-    <div class="time-box">
-      <div id="hours" class="number">0</div>
-      <div id="label-hours" class="label">HOURS</div>
-    </div>
-    <div class="time-box">
-      <div id="minutes" class="number">0</div>
-      <div id="label-minutes" class="label">MINUTES</div>
-    </div>
-    <div class="time-box">
-      <div id="seconds" class="number">0</div>
-      <div id="label-seconds" class="label">SECONDS</div>
+    <div class="controls">
+      <select id="langSelect">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="ar">العربية</option>
+      </select>
     </div>
   </div>
+
+  <div id="exams-container" class="exams-grid"></div>
 
   <button id="shareBtn" class="share-btn">SHARE</button>
 
