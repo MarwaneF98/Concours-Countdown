@@ -50,7 +50,7 @@ body {
 
 /* 3. Typography & RTL Specific Adjustments */
 [dir="rtl"] {
-  /* Font explicitly removed to rely on the base 'Inter' / system default */
+  font-family: 'Cairo', 'Inter', sans-serif; /* Cairo handles Arabic descenders better */
 }
 
 [dir="rtl"] .header-text {
