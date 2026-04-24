@@ -1,359 +1,236 @@
-/* 1. Global Reset & Base Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+// Dictionary for Multi-Language Support
+const i18n = {
+  en: {
+    mainTitle: "Moroccan Exams", mainSubtitle: "Track every major concours and exam",
+    days: "DAYS", hours: "HOURS", minutes: "MIN", seconds: "SEC",
+    builtBy: "Built by", countdownTo: "Countdown to",
+    arrived: "IT'S EXAM DAY! GOOD LUCK!", portal: "Official Portal"
+  },
+  fr: {
+    mainTitle: "Examens Marocains", mainSubtitle: "Suivez chaque concours et examen majeur",
+    days: "JOURS", hours: "HEURES", minutes: "MIN", seconds: "SEC",
+    builtBy: "Créé par", countdownTo: "Prévu pour le",
+    arrived: "C'EST LE JOUR J ! BON COURAGE !", portal: "Portail Officiel"
+  },
+  ar: {
+    mainTitle: "الامتحانات المغربية", mainSubtitle: "تتبع كل المباريات والامتحانات الوطنية",
+    days: "أيام", hours: "ساعات", minutes: "دقيقة", seconds: "ثانية",
+    builtBy: "تم التطوير بواسطة", countdownTo: "العد التنازلي لـ",
+    arrived: "لقد حان يوم الامتحان! بالتوفيق!", portal: "البوابة الرسمية"
+  }
+};
 
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-}
+// Official Moroccan Arabic Month Names
+const moroccanMonths = {
+  1: "يناير", 2: "فبراير", 3: "مارس", 4: "أبريل",
+  5: "ماي", 6: "يونيو", 7: "يوليوز", 8: "غشت",
+  9: "شتنبر", 10: "أكتوبر", 11: "نونبر", 12: "دجنبر"
+};
 
-html {
-  background-color: #050505; /* Deep rich black */
-  scroll-behavior: smooth;
-  /* Kills the elastic mobile "bounce" that reveals the black void */
-  overscroll-behavior-y: none; 
-}
+// Expanded Database of Moroccan Exams
+const examsDB = [
+  { id: "bac_nat", month: 6, day: 10, en: "National Baccalaureate", fr: "Baccalauréat National", ar: "الامتحان الوطني للبكالوريا", link: "https://massarservice.men.gov.ma/moutamadris" },
+  { id: "bac_reg", month: 6, day: 5,  en: "Regional Baccalaureate", fr: "Baccalauréat Régional", ar: "الامتحان الجهوي للبكالوريا", link: "https://massarservice.men.gov.ma/moutamadris" },
+  { id: "cnc",     month: 5, day: 14, en: "CNC (Engineering)", fr: "CNC (Ingénierie)", ar: "المباراة الوطنية المشتركة (CNC)", link: "https://www.cpge.ac.ma" },
+  { id: "cnaem",   month: 5, day: 25, en: "CNAEM (Commerce)", fr: "CNAEM (Commerce)", ar: "المباراة الوطنية (CNAEM)", link: "https://www.cnaem.ma" },
+  { id: "med",     month: 7, day: 20, en: "Medicine & Pharmacy", fr: "Médecine & Pharmacie (FMP)", ar: "مباراة الطب والصيدلة", link: "https://cursusup.gov.ma/medecine" },
+  { id: "ensa",    month: 7, day: 25, en: "ENSA Network", fr: "Réseau ENSA", ar: "شبكة المدارس الوطنية (ENSA)", link: "https://cursusup.gov.ma/ensa" },
+  { id: "ensam",   month: 7, day: 26, en: "ENSAM Network", fr: "Réseau ENSAM", ar: "المدارس الوطنية (ENSAM)", link: "https://cursusup.gov.ma/ensam" },
+  { id: "encg",    month: 7, day: 24, en: "ENCG Network", fr: "Réseau ENCG", ar: "التجارة والتسيير (ENCG)", link: "https://cursusup.gov.ma/encg" },
+  { id: "ena",     month: 7, day: 15, en: "ENA (Architecture)", fr: "ENA (Architecture)", ar: "الهندسة المعمارية (ENA)", link: "https://www.concoursena.ma" },
+  { id: "iav",     month: 7, day: 12, en: "IAV Hassan II (APESA)", fr: "IAV Hassan II (APESA)", ar: "معهد الحسن الثاني (IAV)", link: "https://www.iav.ac.ma" },
+  { id: "ispits",  month: 9, day: 15, en: "ISPITS (Nursing)", fr: "ISPITS (Infirmiers)", ar: "المهن التمريضية (ISPITS)", link: "https://ispits.sante.gov.ma" }
+];
 
-button, a {
-  -webkit-tap-highlight-color: transparent;
-  outline: none;
-  font-family: inherit;
-}
+let currentLang = "ar";
+let countdownInterval;
 
-body {
-  min-height: 100vh;
-  min-height: 100dvh;
-  color: white;
-  font-family: 'Inter', sans-serif;
-  position: relative;
-}
+const htmlTag = document.getElementById("htmlTag");
+const langBtns = document.querySelectorAll('.lang-btn');
+const container = document.getElementById("exams-container");
+const headerText = document.querySelector('.header-text');
 
-/* 2. The Background Plate (Flawless Mobile Fix) */
-.background-plate {
-  position: fixed;
-  top: 0; 
-  left: 0; 
-  width: 100vw; 
-  height: 100vh;
-  height: 100dvh;
-  background: radial-gradient(circle at top left, #16161d, #050505 80%);
-  z-index: -1;
-  pointer-events: none;
-}
+function init() {
+  const activeBtn = document.querySelector('.lang-btn.active');
+  if (activeBtn) currentLang = activeBtn.getAttribute('data-lang');
 
-/* 3. Layout Containers */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto; 
-  /* Added plenty of bottom padding so the last card clears the footer */
-  padding: 50px 20px 120px 20px; 
-  text-align: center;
-}
+  langBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('active')) return;
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 50px;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+      // Trigger the sleek fade out
+      headerText.classList.add('content-hidden');
+      container.classList.add('content-hidden');
 
-.header-text {
-  text-align: left;
-}
+      setTimeout(() => {
+        langBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentLang = btn.getAttribute('data-lang');
+        
+        updateUI();
 
-/* 4. Typography, RTL, & Pro Title Animations */
-[dir="rtl"] {
-  font-family: 'Cairo', 'Inter', sans-serif; 
-}
-
-[dir="rtl"] .header-text {
-  text-align: right;
-}
-
-/* Pro Title Animation */
-h1 {
-  font-size: 38px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  margin-bottom: 5px;
-  line-height: 1.4;
-  opacity: 0;
-  /* Cinematic blur + slide down */
-  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-[dir="rtl"] h1 {
-  letter-spacing: 0px !important; 
-  line-height: 1.8; 
-  padding-bottom: 8px;
-  padding-top: 5px;
-}
-
-.header-text p {
-  font-size: 16px;
-  color: #a0a0a0;
-  opacity: 0;
-  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-}
-
-/* 5. Language Switcher Squares */
-.lang-squares {
-  display: flex;
-  gap: 10px;
-}
-
-.lang-btn {
-  width: 45px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.lang-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-}
-
-.lang-btn.active {
-  background: white;
-  color: black;
-  border-color: white;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-}
-
-/* 6. Exams Grid System */
-.exams-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 25px;
-}
-
-.exam-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  padding: 30px 20px;
-  will-change: transform, opacity; 
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
-  display: flex;
-  flex-direction: column;
+        // Trigger the sleek fade in
+        headerText.classList.remove('content-hidden');
+        container.classList.remove('content-hidden');
+      }, 350);
+    });
+  });
   
-  opacity: 0; 
-  /* Pro Scale & Blur entrance */
-  animation: proRevealCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  updateUI();
 }
 
-.exam-card:hover {
-  transform: translateY(-8px) scale(1.01);
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
+function getNextExamDate(month, day) {
+  const now = new Date();
+  let targetYear = now.getFullYear();
+  let targetDate = new Date(targetYear, month - 1, day, 0, 0, 0);
+  const isToday = now.getDate() === day && now.getMonth() === month - 1;
 
-.exam-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 5px;
-  line-height: 1.5;
-}
-
-[dir="rtl"] .exam-title {
-  line-height: 1.8; 
-  padding-bottom: 5px;
-  letter-spacing: 0;
-}
-
-.exam-subtitle {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 15px;
-}
-
-/* 7. Links & Buttons */
-.portal-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #a8a8a8;
-  text-decoration: none;
-  margin-bottom: 25px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 8px 14px;
-  border-radius: 8px;
-  align-self: center;
-  transition: all 0.3s ease;
-}
-
-.portal-link:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* 8. Countdown System */
-.countdown-mini {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  min-height: 85px;
-  align-items: center;
-  direction: ltr; 
-  width: 100%; 
-  margin: 0 auto;
-}
-
-.time-box-mini {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 12px 8px;
-  border-radius: 12px;
-  width: 70px;
-  transition: width 0.3s ease;
-}
-
-[dir="rtl"] .time-box-mini {
-  width: 75px; 
-  min-width: unset; 
-}
-
-.number-mini {
-  font-size: 26px;
-  font-weight: 800;
-  display: inline-block;
-  font-variant-numeric: tabular-nums; 
-  text-shadow: 0 2px 10px rgba(255,255,255,0.1);
-}
-
-.label-mini {
-  font-size: 10px;
-  color: #888;
-  margin-top: 4px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-[dir="rtl"] .label-mini {
-  letter-spacing: 0 !important;
-  line-height: 1.6;
-  font-size: 11px;
-  margin-top: 2px;
-  text-transform: none; 
-}
-
-/* 9. Footer & Misc */
-.arrived-msg {
-  font-weight: 800;
-  color: #4ade80;
-  letter-spacing: 1px;
-  animation: pulse 2s infinite;
-  text-align: center;
-  width: 100%;
-}
-
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 13px;
-  color: #666;
-  letter-spacing: 2px;
-  background: linear-gradient(to top, rgba(0,0,0,0.9) 30%, transparent);
-  padding: 40px 0 20px 0;
-  pointer-events: none; 
-  z-index: 10;
-}
-
-.footer a {
-  pointer-events: auto;
-  color: #aaa;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 2px;
-  transition: all 0.3s ease;
-}
-
-.footer a:hover {
-  color: white;
-  border-bottom: 1px solid white;
-}
-
-[dir="rtl"] .footer {
-  letter-spacing: 0 !important; 
-  line-height: 1.8; 
-  font-size: 14px; 
-}
-
-[dir="rtl"] .footer span, 
-[dir="rtl"] .footer a {
-  letter-spacing: 0 !important;
-}
-
-/* 10. Pro Animations & Transitions */
-
-@keyframes proRevealTitle {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-    filter: blur(8px);
+  if (now.getTime() > targetDate.getTime() + (24 * 60 * 60 * 1000) && !isToday) {
+    targetYear++;
+    targetDate = new Date(targetYear, month - 1, day, 0, 0, 0);
   }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
+  return { timestamp: targetDate.getTime(), year: targetYear, dateObj: targetDate, isToday };
+}
+
+function updateUI() {
+  if (currentLang === "ar") {
+    htmlTag.setAttribute("dir", "rtl");
+    document.body.style.fontFamily = "'Cairo', sans-serif";
+  } else {
+    htmlTag.setAttribute("dir", "ltr");
+    document.body.style.fontFamily = "'Inter', sans-serif";
+  }
+
+  document.getElementById("main-title").innerText = i18n[currentLang].mainTitle;
+  document.getElementById("main-subtitle").innerText = i18n[currentLang].mainSubtitle;
+  document.getElementById("footer-text").innerText = i18n[currentLang].builtBy;
+
+  renderExams();
+  startCountdowns();
+}
+
+function renderExams() {
+  container.innerHTML = "";
+  
+  examsDB.forEach((exam, index) => {
+    const targetInfo = getNextExamDate(exam.month, exam.day);
+    let dateString = "";
+
+    if (currentLang === "ar") {
+      const examDay = targetInfo.dateObj.getDate();
+      const examMonth = targetInfo.dateObj.getMonth() + 1;
+      const examYear = targetInfo.dateObj.getFullYear();
+      dateString = `${examDay} ${moroccanMonths[examMonth]} ${examYear}`;
+    } else {
+      const options = { month: 'long', day: 'numeric', year: 'numeric' };
+      dateString = targetInfo.dateObj.toLocaleDateString(currentLang, options);
+    }
+
+    const card = document.createElement("div");
+    card.className = "exam-card";
+    
+    // Staggered professional appearance delay
+    card.style.animationDelay = `${index * 0.06}s`;
+
+    card.innerHTML = `
+      <div class="exam-title">${exam[currentLang]}</div>
+      <div class="exam-subtitle">${i18n[currentLang].countdownTo} ${dateString}</div>
+      <a href="${exam.link}" target="_blank" class="portal-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        ${i18n[currentLang].portal}
+      </a>
+      
+      <div class="countdown-mini" id="countdown-${exam.id}">
+        <div class="time-box-mini">
+          <div id="days-${exam.id}" class="number-mini">0</div>
+          <div class="label-mini">${i18n[currentLang].days}</div>
+        </div>
+        <div class="time-box-mini">
+          <div id="hours-${exam.id}" class="number-mini">0</div>
+          <div class="label-mini">${i18n[currentLang].hours}</div>
+        </div>
+        <div class="time-box-mini">
+          <div id="minutes-${exam.id}" class="number-mini">0</div>
+          <div class="label-mini">${i18n[currentLang].minutes}</div>
+        </div>
+        <div class="time-box-mini">
+          <div id="seconds-${exam.id}" class="number-mini">0</div>
+          <div class="label-mini">${i18n[currentLang].seconds}</div>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function startCountdowns() {
+  clearInterval(countdownInterval);
+
+  const tick = () => {
+    const now = new Date().getTime();
+
+    examsDB.forEach(exam => {
+      const targetInfo = getNextExamDate(exam.month, exam.day);
+      const diff = targetInfo.timestamp - now;
+      const countdownEl = document.getElementById(`countdown-${exam.id}`);
+      
+      if (!countdownEl) return;
+
+      if (targetInfo.isToday || diff <= 0) {
+        countdownEl.innerHTML = `<div class="arrived-msg">${i18n[currentLang].arrived}</div>`;
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      setValue(`days-${exam.id}`, days);
+      setValue(`hours-${exam.id}`, hours);
+      setValue(`minutes-${exam.id}`, minutes);
+      setValue(`seconds-${exam.id}`, seconds);
+    });
+  };
+
+  tick(); 
+  countdownInterval = setInterval(tick, 1000);
+}
+
+// Pro-level Number Roll Animation
+function animateValue(obj, end, duration) {
+  let startTimestamp = null;
+  obj.dataset.animating = "true";
+  
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    
+    // Pro Cubic Ease-Out curve for an incredibly natural stop
+    const easeProgress = 1 - Math.pow(1 - progress, 4);
+    
+    obj.innerText = Math.floor(easeProgress * end);
+    
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    } else {
+      obj.innerText = end;
+      obj.dataset.animating = "false";
+      obj.dataset.animated = "true";
+    }
+  };
+  window.requestAnimationFrame(step);
+}
+
+function setValue(id, value) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  
+  if (el.dataset.animated !== "true" && el.dataset.animating !== "true") {
+    animateValue(el, value, 1500); // 1.5s pro-smooth roll up
+  } else if (el.dataset.animating !== "true" && el.innerText != value) {
+    el.innerText = value; 
   }
 }
 
-@keyframes proRevealCard {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
-    filter: blur(5px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-.content-fade {
-  transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1), transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.content-hidden {
-  opacity: 0 !important;
-  transform: translateY(10px) scale(0.98) !important;
-}
-
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
-}
-
-@media (max-width: 768px) {
-  .header { flex-direction: column; text-align: center; justify-content: center; }
-  .header-text { text-align: center; }
-  [dir="rtl"] .header-text { text-align: center; }
-  .exams-grid { grid-template-columns: 1fr; }
-}
+init();
