@@ -5,6 +5,16 @@
   box-sizing: border-box;
 }
 
+/* Remove the blue tap animation on mobile and default focus outlines */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+button:focus, a:focus {
+  outline: none;
+}
+
 body {
   min-height: 100vh;
   background: linear-gradient(135deg, #0a0a0a, #111, #000);
