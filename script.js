@@ -5,21 +5,21 @@ const i18n = {
     days: "DAYS", hours: "HOURS", minutes: "MIN", seconds: "SEC",
     builtBy: "Built by", countdownTo: "Countdown to",
     arrived: "IT'S EXAM DAY! GOOD LUCK!", portal: "Official Portal",
-    visitors: "Visitors (24h)"
+    visitors: "Total Real Visitors"
   },
   fr: {
     mainTitle: "Examens Marocains", mainSubtitle: "Suivez chaque concours et examen majeur",
     days: "JOURS", hours: "HEURES", minutes: "MIN", seconds: "SEC",
     builtBy: "Créé par", countdownTo: "Prévu pour le",
     arrived: "C'EST LE JOUR J ! BON COURAGE !", portal: "Portail Officiel",
-    visitors: "Visiteurs (24h)"
+    visitors: "Total des Visiteurs"
   },
   ar: {
     mainTitle: "الامتحانات المغربية", mainSubtitle: "تتبع كل المباريات والامتحانات الوطنية",
     days: "أيام", hours: "ساعات", minutes: "دقيقة", seconds: "ثانية",
     builtBy: "تم التطوير بواسطة", countdownTo: "العد التنازلي لـ",
     arrived: "لقد حان يوم الامتحان! بالتوفيق!", portal: "البوابة الرسمية",
-    visitors: "الزوار خلال 24 ساعة"
+    visitors: "إجمالي الزوار الحقيقيين"
   }
 };
 
@@ -47,7 +47,6 @@ const examsDB = [
 
 let currentLang = "ar";
 let countdownInterval;
-let liveVisitorCount;
 
 const htmlTag = document.getElementById("htmlTag");
 const langBtns = document.querySelectorAll('.lang-btn');
@@ -83,24 +82,23 @@ function init() {
   initLiveVisitors();
 }
 
-// Generates a stable but random-looking base number for the day
-function initLiveVisitors() {
-  const today = new Date();
-  const seed = (today.getDate() * 47) + (today.getMonth() * 113);
-  liveVisitorCount = 1200 + (seed % 2500); // Gives a realistic number between 1200 and 3700
+// REAL Visitor Counter Logic
+async function initLiveVisitors() {
+  try {
+    // This hits a free API. The namespace 'marwanef98_exams' acts as your unique database table.
+    // Every time someone opens the page, it automatically adds +1 to your total count.
+    const response = await fetch("https://api.counterapi.dev/v1/marwanef98_exams/visits/up");
+    const data = await response.json();
 
-  // Animate it rolling up on load
-  animateValue(visitorCountEl, liveVisitorCount, 2000);
-
-  // Randomly tick up the number every few seconds to look "live"
-  setInterval(() => {
-    const randomIncrease = Math.floor(Math.random() * 3) + 1; // Increase by 1 to 3
-    liveVisitorCount += randomIncrease;
-    // Only update if it's done with the initial animation roll
-    if (visitorCountEl.dataset.animating === "false") {
-      visitorCountEl.innerText = liveVisitorCount;
+    // Roll up the real number smoothly!
+    if(data.count) {
+      animateValue(visitorCountEl, data.count, 2000);
     }
-  }, Math.random() * 5000 + 4000); // Random interval between 4 to 9 seconds
+  } catch (error) {
+    console.log("Visitor API blocked by AdBlocker or failed.");
+    // Fallback just in case a user has an extreme adblocker running
+    visitorCountEl.innerText = "1"; 
+  }
 }
 
 function getNextExamDate(month, day) {
