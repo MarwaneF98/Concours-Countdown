@@ -50,7 +50,7 @@ body {
 
 /* 3. Typography & RTL Specific Adjustments */
 [dir="rtl"] {
-  font-family: 'Cairo', 'Inter', sans-serif;
+  font-family: 'Cairo', 'Inter', sans-serif; /* Cairo handles Arabic descenders better */
 }
 
 [dir="rtl"] .header-text {
@@ -109,33 +109,11 @@ h1 {
   border-color: white;
 }
 
-/* 5. Exams Grid System & Desktop Window Layout */
+/* 5. Exams Grid System */
 .exams-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 25px;
-  
-  /* Desktop "Window" Settings */
-  max-height: 60vh; /* Limits height so it becomes a scrollable pane */
-  overflow-y: auto; /* Adds the vertical scroll inside the container */
-  padding: 10px;
-  padding-right: 15px; /* Room for the custom scrollbar */
-}
-
-/* Sleek Custom Scrollbar for Desktop */
-.exams-grid::-webkit-scrollbar {
-  width: 8px;
-}
-.exams-grid::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 10px;
-}
-.exams-grid::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-}
-.exams-grid::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.4);
 }
 
 .exam-card {
@@ -214,14 +192,14 @@ h1 {
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* 7. Countdown System */
+/* 7. Countdown System (Fixed Clipping) */
 .countdown-mini {
   display: flex;
   justify-content: center;
   gap: 12px;
   min-height: 85px;
   align-items: center;
-  direction: ltr;
+  direction: ltr; /* Keeps numbers in 00:00:00 order */
 }
 
 .time-box-mini {
@@ -231,13 +209,13 @@ h1 {
   background: rgba(0, 0, 0, 0.3);
   padding: 12px 8px;
   border-radius: 12px;
-  width: 70px;
+  width: 70px; /* Slightly wider to prevent text overflow */
   transition: width 0.3s ease;
 }
 
 [dir="rtl"] .time-box-mini {
   width: auto;
-  min-width: 75px; 
+  min-width: 75px; /* Arabic words like "الدقائق" need more horizontal room */
 }
 
 .number-mini {
@@ -259,7 +237,7 @@ h1 {
   line-height: 1.6;
   font-size: 11px;
   margin-top: 2px;
-  text-transform: none;
+  text-transform: none; /* Uppercase doesn't apply to Arabic */
 }
 
 /* 8. Footer & Misc */
@@ -283,7 +261,7 @@ h1 {
   letter-spacing: 2px;
   background: linear-gradient(to top, #000 50%, transparent);
   padding-top: 20px;
-  pointer-events: none;
+  pointer-events: none; /* Prevents blocking clicks on cards behind it */
 }
 
 .footer a {
@@ -300,7 +278,7 @@ h1 {
   border-bottom: 1px solid white;
 }
 
-/* Fix for Arabic footer text being cut/disconnected */
+/* Fix for the Arabic footer text being cut/disconnected */
 [dir="rtl"] .footer {
   letter-spacing: 0 !important; 
   line-height: 1.8; 
@@ -323,14 +301,6 @@ h1 {
   .header { flex-direction: column; text-align: center; justify-content: center; }
   .header-text { text-align: center; }
   [dir="rtl"] .header-text { text-align: center; }
-  
-  /* Remove Window effect on mobile - standard vertical scroll */
-  .exams-grid { 
-    grid-template-columns: 1fr; 
-    max-height: none; 
-    overflow-y: visible;
-    padding: 0; 
-  }
-  
-  .container { padding-bottom: 150px; } 
+  .exams-grid { grid-template-columns: 1fr; }
+  .container { padding-bottom: 150px; } /* More space for fixed footer */
 }
