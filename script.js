@@ -23,6 +23,13 @@ const i18n = {
   }
 };
 
+// Official Moroccan Arabic Month Names
+const moroccanMonths = {
+  1: "يناير", 2: "فبراير", 3: "مارس", 4: "أبريل",
+  5: "ماي", 6: "يونيو", 7: "يوليوز", 8: "غشت",
+  9: "شتنبر", 10: "أكتوبر", 11: "نونبر", 12: "دجنبر"
+};
+
 // Expanded Database of Moroccan Exams with Official Websites
 const examsDB = [
   { id: "bac_nat", month: 6, day: 10, en: "National Baccalaureate", fr: "Baccalauréat National", ar: "الامتحان الوطني للبكالوريا", link: "https://massarservice.men.gov.ma/moutamadris" },
@@ -38,7 +45,8 @@ const examsDB = [
   { id: "ispits",  month: 9, day: 15, en: "ISPITS (Nursing)", fr: "ISPITS (Infirmiers)", ar: "المهن التمريضية (ISPITS)", link: "https://ispits.sante.gov.ma" }
 ];
 
-let currentLang = "en";
+// Set default to Arabic
+let currentLang = "ar";
 let countdownInterval;
 
 const htmlTag = document.getElementById("htmlTag");
@@ -47,6 +55,12 @@ const container = document.getElementById("exams-container");
 const shareBtn = document.getElementById("shareBtn");
 
 function init() {
+  // Sync the currentLang variable with whatever button has the "active" class in HTML
+  const activeBtn = document.querySelector('.lang-btn.active');
+  if (activeBtn) {
+    currentLang = activeBtn.getAttribute('data-lang');
+  }
+
   // Setup language squares
   langBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -93,11 +107,21 @@ function updateUI() {
 
 function renderExams() {
   container.innerHTML = "";
-  const options = { month: 'long', day: 'numeric', year: 'numeric' };
-
+  
   examsDB.forEach(exam => {
     const targetInfo = getNextExamDate(exam.month, exam.day);
-    const dateString = targetInfo.dateObj.toLocaleDateString(currentLang, options);
+    let dateString = "";
+
+    // If Arabic, use the custom Moroccan months dictionary. Else, use the default browser formatting.
+    if (currentLang === "ar") {
+      const examDay = targetInfo.dateObj.getDate();
+      const examMonth = targetInfo.dateObj.getMonth() + 1;
+      const examYear = targetInfo.dateObj.getFullYear();
+      dateString = `${examDay} ${moroccanMonths[examMonth]} ${examYear}`;
+    } else {
+      const options = { month: 'long', day: 'numeric', year: 'numeric' };
+      dateString = targetInfo.dateObj.toLocaleDateString(currentLang, options);
+    }
 
     const card = document.createElement("div");
     card.className = "exam-card";
@@ -169,7 +193,6 @@ function setValue(id, value) {
     el.innerText = value; // Just update the text, no classes added!
   }
 }
-
 
 shareBtn.addEventListener("click", async () => {
   const url = window.location.href;
