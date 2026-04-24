@@ -3,23 +3,20 @@ const i18n = {
   en: {
     mainTitle: "Moroccan Exams", mainSubtitle: "Track every major concours and exam",
     days: "DAYS", hours: "HOURS", minutes: "MIN", seconds: "SEC",
-    share: "SHARE", builtBy: "Built by", countdownTo: "Countdown to",
-    arrived: "IT'S EXAM DAY! GOOD LUCK!", shareText: "Track all Moroccan Exams Countdowns here!",
-    portal: "Official Portal"
+    builtBy: "Built by", countdownTo: "Countdown to",
+    arrived: "IT'S EXAM DAY! GOOD LUCK!", portal: "Official Portal"
   },
   fr: {
     mainTitle: "Examens Marocains", mainSubtitle: "Suivez chaque concours et examen majeur",
     days: "JOURS", hours: "HEURES", minutes: "MIN", seconds: "SEC",
-    share: "PARTAGER", builtBy: "Créé par", countdownTo: "Prévu pour le",
-    arrived: "C'EST LE JOUR J ! BON COURAGE !", shareText: "Suivez tous les comptes à rebours des examens marocains !",
-    portal: "Portail Officiel"
+    builtBy: "Créé par", countdownTo: "Prévu pour le",
+    arrived: "C'EST LE JOUR J ! BON COURAGE !", portal: "Portail Officiel"
   },
   ar: {
     mainTitle: "الامتحانات المغربية", mainSubtitle: "تتبع كل المباريات والامتحانات الوطنية",
     days: "أيام", hours: "ساعات", minutes: "دقيقة", seconds: "ثانية",
-    share: "مشاركة", builtBy: "تم التطوير بواسطة", countdownTo: "العد التنازلي لـ",
-    arrived: "لقد حان يوم الامتحان! بالتوفيق!", shareText: "تحقق من العد التنازلي للامتحانات المغربية!",
-    portal: "البوابة الرسمية"
+    builtBy: "تم التطوير بواسطة", countdownTo: "العد التنازلي لـ",
+    arrived: "لقد حان يوم الامتحان! بالتوفيق!", portal: "البوابة الرسمية"
   }
 };
 
@@ -51,7 +48,6 @@ let countdownInterval;
 const htmlTag = document.getElementById("htmlTag");
 const langBtns = document.querySelectorAll('.lang-btn');
 const container = document.getElementById("exams-container");
-const shareBtn = document.getElementById("shareBtn");
 const headerText = document.querySelector('.header-text');
 
 function init() {
@@ -62,7 +58,7 @@ function init() {
     btn.addEventListener('click', () => {
       if (btn.classList.contains('active')) return;
 
-      // Only fade out the changing content, NOT the share button
+      // Trigger the sleek fade out
       headerText.classList.add('content-hidden');
       container.classList.add('content-hidden');
 
@@ -73,9 +69,10 @@ function init() {
         
         updateUI();
 
+        // Trigger the sleek fade in
         headerText.classList.remove('content-hidden');
         container.classList.remove('content-hidden');
-      }, 300);
+      }, 350);
     });
   });
   
@@ -107,7 +104,6 @@ function updateUI() {
   document.getElementById("main-title").innerText = i18n[currentLang].mainTitle;
   document.getElementById("main-subtitle").innerText = i18n[currentLang].mainSubtitle;
   document.getElementById("footer-text").innerText = i18n[currentLang].builtBy;
-  shareBtn.innerText = i18n[currentLang].share;
 
   renderExams();
   startCountdowns();
@@ -132,7 +128,9 @@ function renderExams() {
 
     const card = document.createElement("div");
     card.className = "exam-card";
-    card.style.animationDelay = `${index * 0.08}s`;
+    
+    // Staggered professional appearance delay
+    card.style.animationDelay = `${index * 0.06}s`;
 
     card.innerHTML = `
       <div class="exam-title">${exam[currentLang]}</div>
@@ -168,7 +166,6 @@ function renderExams() {
 function startCountdowns() {
   clearInterval(countdownInterval);
 
-  // The logic that runs every second
   const tick = () => {
     const now = new Date().getTime();
 
@@ -196,12 +193,11 @@ function startCountdowns() {
     });
   };
 
-  // Run immediately so we don't wait 1 second to see the numbers
   tick(); 
   countdownInterval = setInterval(tick, 1000);
 }
 
-// Function to smoothly animate numbers from 0 to Target
+// Pro-level Number Roll Animation
 function animateValue(obj, end, duration) {
   let startTimestamp = null;
   obj.dataset.animating = "true";
@@ -210,8 +206,8 @@ function animateValue(obj, end, duration) {
     if (!startTimestamp) startTimestamp = timestamp;
     const progress = Math.min((timestamp - startTimestamp) / duration, 1);
     
-    // Cubic Ease-Out for a really smooth slow-down at the end
-    const easeProgress = 1 - Math.pow(1 - progress, 3);
+    // Pro Cubic Ease-Out curve for an incredibly natural stop
+    const easeProgress = 1 - Math.pow(1 - progress, 4);
     
     obj.innerText = Math.floor(easeProgress * end);
     
@@ -230,26 +226,11 @@ function setValue(id, value) {
   const el = document.getElementById(id);
   if (!el) return;
   
-  // If element hasn't been animated yet, trigger the fast roll-up!
   if (el.dataset.animated !== "true" && el.dataset.animating !== "true") {
-    animateValue(el, value, 1200); // 1.2 second animation
-  } 
-  // Otherwise, just update the text normally every second
-  else if (el.dataset.animating !== "true" && el.innerText != value) {
+    animateValue(el, value, 1500); // 1.5s pro-smooth roll up
+  } else if (el.dataset.animating !== "true" && el.innerText != value) {
     el.innerText = value; 
   }
 }
-
-shareBtn.addEventListener("click", async () => {
-  const url = window.location.href;
-  const text = `${i18n[currentLang].shareText} @marwanef98`;
-
-  if (navigator.share) {
-    try { await navigator.share({ title: "Moroccan Exams", text, url }); } 
-    catch (err) { console.log("Share canceled", err); }
-  } else {
-    navigator.clipboard.writeText(url).then(() => alert("Link copied!"));
-  }
-});
 
 init();
