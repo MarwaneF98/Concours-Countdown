@@ -55,13 +55,11 @@ const container = document.getElementById("exams-container");
 const shareBtn = document.getElementById("shareBtn");
 
 function init() {
-  // Sync the currentLang variable with whatever button has the "active" class in HTML
   const activeBtn = document.querySelector('.lang-btn.active');
   if (activeBtn) {
     currentLang = activeBtn.getAttribute('data-lang');
   }
 
-  // Setup language squares
   langBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       langBtns.forEach(b => b.classList.remove('active'));
@@ -112,7 +110,6 @@ function renderExams() {
     const targetInfo = getNextExamDate(exam.month, exam.day);
     let dateString = "";
 
-    // If Arabic, use the custom Moroccan months dictionary. Else, use the default browser formatting.
     if (currentLang === "ar") {
       const examDay = targetInfo.dateObj.getDate();
       const examMonth = targetInfo.dateObj.getMonth() + 1;
@@ -190,7 +187,7 @@ function startCountdowns() {
 function setValue(id, value) {
   const el = document.getElementById(id);
   if (el && el.innerText != value) {
-    el.innerText = value; // Just update the text, no classes added!
+    el.innerText = value; 
   }
 }
 
@@ -206,5 +203,4 @@ shareBtn.addEventListener("click", async () => {
   }
 });
 
-// Run app
 init();
