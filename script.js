@@ -167,9 +167,9 @@ function setValue(id, value) {
   const el = document.getElementById(id);
   if (el && el.innerText != value) {
     el.innerText = value;
-    el.classList.remove("fade");
-    void el.offsetWidth;
-    el.classList.add("fade");
+    el.classList.remove("pop");
+    void el.offsetWidth; // trigger reflow
+    el.classList.add("pop");
   }
 }
 
