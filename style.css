@@ -192,6 +192,12 @@ h1 {
   background: rgba(255, 255, 255, 0.15);
 }
 
+/* Fix for Arabic Share Button text being cut/disconnected */
+[dir="rtl"] .share-btn {
+  letter-spacing: 0 !important; 
+  line-height: 1.6; 
+}
+
 /* 7. Countdown System (Fixed Clipping) */
 .countdown-mini {
   display: flex;
