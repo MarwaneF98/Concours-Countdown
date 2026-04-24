@@ -205,7 +205,8 @@ h1 {
 
 [dir="rtl"] .time-box-mini {
   width: auto;
-  min-width: 75px; /* Arabic words like "الدقائق" need more horizontal room */
+  min-width: 85px; /* Increased slightly to give longer Arabic words room */
+  padding: 14px 10px; /* Added more vertical and horizontal padding */
 }
 
 .number-mini {
@@ -224,10 +225,12 @@ h1 {
 
 [dir="rtl"] .label-mini {
   letter-spacing: 0 !important;
-  line-height: 1.6;
+  line-height: 1.8; /* Increased to give descenders more breathing room */
   font-size: 11px;
-  margin-top: 2px;
+  margin-top: 4px;
   text-transform: none; /* Uppercase doesn't apply to Arabic */
+  white-space: nowrap; /* Forces word to stay on one line, preventing horizontal clipping */
+  padding-bottom: 2px; /* Extra safety net at the bottom for low-hanging letters */
 }
 
 /* 8. Footer & Misc */
