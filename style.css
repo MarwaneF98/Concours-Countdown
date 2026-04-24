@@ -36,21 +36,34 @@ body {
   text-align: left;
 }
 
-[dir="rtl"] .header-text {
-  text-align: right;
-}
-
 h1 {
   font-size: 36px;
   font-weight: 800;
   letter-spacing: 2px;
   margin-bottom: 5px;
-  line-height: 1.4; /* Fixed Arabic font cutoff */
+  line-height: 1.4;
 }
 
 .header-text p {
   opacity: 0.6;
   font-size: 16px;
+}
+
+/* Specific Fixes for Arabic Text Layout and Clipping */
+[dir="rtl"] .header-text {
+  text-align: right;
+}
+
+[dir="rtl"] h1 {
+  letter-spacing: 0px; /* Crucial: Arabic letters must not have letter-spacing */
+  line-height: 1.8; /* Give Cairo font more room to breathe */
+  padding-bottom: 8px; /* Prevents the bottom dots/tails from clipping */
+  padding-top: 5px; /* Prevents the top accents from clipping */
+}
+
+[dir="rtl"] .exam-title {
+  line-height: 1.8; 
+  padding-bottom: 5px;
 }
 
 /* 3 Squares for Languages */
@@ -112,7 +125,7 @@ h1 {
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 5px;
-  line-height: 1.5; /* Fixed Arabic font cutoff */
+  line-height: 1.4;
 }
 
 .exam-subtitle {
@@ -165,7 +178,7 @@ h1 {
 .number-mini {
   font-size: 24px;
   font-weight: 800;
-  display: inline-block; /* Helps with transform animations */
+  display: inline-block;
 }
 
 .label-mini {
@@ -227,16 +240,6 @@ h1 {
 .footer a:hover {
   opacity: 1;
   border-bottom: 1px solid white;
-}
-
-/* New clean Pop animation for numbers changing */
-.pop {
-  animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes pop {
-  from { transform: scale(1.25); }
-  to { transform: scale(1); }
 }
 
 @keyframes pulse {
