@@ -1,43 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="htmlTag">
 <head>
-<meta charset="UTF-8">
-<title>CNC 2026 Countdown</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Moroccan Exams Countdown</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="container">
+  
+  <div class="controls">
+    <select id="examSelect"></select>
+    <select id="langSelect">
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+      <option value="ar">العربية</option>
+    </select>
+  </div>
 
-  <div class="title">CNC 2026</div>
-  <div class="subtitle">Countdown to May 14, 2026</div>
+  <div id="title" class="title">CNC 2026</div>
+  <div id="subtitle" class="subtitle">Countdown</div>
 
   <div class="countdown">
-
     <div class="time-box">
       <div id="days" class="number">0</div>
-      <div class="label">DAYS</div>
+      <div id="label-days" class="label">DAYS</div>
     </div>
-
     <div class="time-box">
       <div id="hours" class="number">0</div>
-      <div class="label">HOURS</div>
+      <div id="label-hours" class="label">HOURS</div>
     </div>
-
     <div class="time-box">
       <div id="minutes" class="number">0</div>
-      <div class="label">MINUTES</div>
+      <div id="label-minutes" class="label">MINUTES</div>
     </div>
-
     <div class="time-box">
       <div id="seconds" class="number">0</div>
-      <div class="label">SECONDS</div>
+      <div id="label-seconds" class="label">SECONDS</div>
     </div>
-
   </div>
 
   <button id="shareBtn" class="share-btn">SHARE</button>
@@ -45,7 +46,7 @@
 </div>
 
 <div class="footer">
-  Built by <a href="https://instagram.com/z3kri" target="_blank">@marwanef98</a>
+  <span id="footer-text">Built by</span> <a href="https://instagram.com/z3kri" target="_blank">@marwanef98</a>
 </div>
 
 <script src="script.js"></script>
