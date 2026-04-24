@@ -5,10 +5,11 @@
   box-sizing: border-box;
 }
 
-/* Remove the blue tap animation on mobile and default focus outlines */
+/* Remove the blue tap animation on mobile, default focus outlines, and inherit fonts */
 button, a {
   -webkit-tap-highlight-color: transparent;
   outline: none;
+  font-family: inherit;
 }
 
 button:focus, a:focus {
@@ -24,14 +25,13 @@ body {
   flex-direction: column;
   align-items: center;
   overflow-x: hidden;
-  transition: all 0.3s ease;
 }
 
 /* 2. Layout Containers */
 .container {
   width: 100%;
   max-width: 1200px;
-  padding: 40px 20px 100px 20px;
+  padding: 40px 20px 150px 20px;
   text-align: center;
 }
 
@@ -308,5 +308,5 @@ h1 {
   .header-text { text-align: center; }
   [dir="rtl"] .header-text { text-align: center; }
   .exams-grid { grid-template-columns: 1fr; }
-  .container { padding-bottom: 150px; } /* More space for fixed footer */
+  .container { padding-bottom: 220px; } /* More space for fixed footer */
 }
