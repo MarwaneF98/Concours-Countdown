@@ -45,7 +45,7 @@ async function fetchLiveDatesFromGemini() {
   document.getElementById("main-subtitle").innerText = i18n[currentLang].loading;
 
   // You can change the model string here based on Google's exact preview naming (e.g., gemini-1.5-flash or gemini-2.5-flash)
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${AIzaSyCmLrDbpFbW9tYd2_ojFm3pjMcOnZKoDxU}`;
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${AIzaSyCmLrDbpFbW9tYd2_ojFm3pjMcOnZKoDxU}`;
 
   const prompt = `
     Search the web for the official estimated or exact dates for these Moroccan exams for the current year: 
