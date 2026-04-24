@@ -1,5 +1,5 @@
 // Put your actual key here! (Keep it safe if you publish this online)
-const GEMINI_API_KEY = "YOUR_API_KEY_HERE"; 
+const GEMINI_API_KEY = "AIzaSyDTS7dUpdVOivhoX-8MLTtxvYiIpcX0rTc"; 
 
 // We start with an empty array. Gemini will fill this dynamically.
 let examsDB = []; 
