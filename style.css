@@ -112,7 +112,7 @@ h1 {
 /* 5. Exams Grid System */
 .exams-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(2, 1fr); /* Forces exactly 2 columns on desktop */
   gap: 25px;
 }
 
@@ -301,6 +301,6 @@ h1 {
   .header { flex-direction: column; text-align: center; justify-content: center; }
   .header-text { text-align: center; }
   [dir="rtl"] .header-text { text-align: center; }
-  .exams-grid { grid-template-columns: 1fr; }
+  .exams-grid { grid-template-columns: 1fr; } /* Preserves single-column on mobile */
   .container { padding-bottom: 150px; } /* More space for fixed footer */
 }
