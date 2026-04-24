@@ -11,9 +11,8 @@ html, body {
 }
 
 html {
-  background-color: #050505; /* Deep rich black */
+  background-color: #050505; 
   scroll-behavior: smooth;
-  /* Kills the elastic mobile "bounce" that reveals the black void */
   overscroll-behavior-y: none; 
 }
 
@@ -31,7 +30,7 @@ body {
   position: relative;
 }
 
-/* 2. The Background Plate (Flawless Mobile Fix) */
+/* 2. The Background Plate */
 .background-plate {
   position: fixed;
   top: 0; 
@@ -49,7 +48,6 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto; 
-  /* Added plenty of bottom padding so the last card clears the footer */
   padding: 50px 20px 120px 20px; 
   text-align: center;
 }
@@ -76,7 +74,6 @@ body {
   text-align: right;
 }
 
-/* Pro Title Animation */
 h1 {
   font-size: 38px;
   font-weight: 800;
@@ -84,7 +81,6 @@ h1 {
   margin-bottom: 5px;
   line-height: 1.4;
   opacity: 0;
-  /* Cinematic blur + slide down */
   animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -151,9 +147,7 @@ h1 {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
   display: flex;
   flex-direction: column;
-  
   opacity: 0; 
-  /* Pro Scale & Blur entrance */
   animation: proRevealCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -208,7 +202,7 @@ h1 {
 .countdown-mini {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 8px; 
   min-height: 85px;
   align-items: center;
   direction: ltr; 
@@ -221,19 +215,19 @@ h1 {
   flex-direction: column;
   align-items: center;
   background: rgba(0, 0, 0, 0.4);
-  padding: 12px 8px;
+  padding: 10px 4px;
   border-radius: 12px;
-  width: 70px;
-  transition: width 0.3s ease;
+  flex: 1; 
+  max-width: 75px; 
+  min-width: 0; 
 }
 
 [dir="rtl"] .time-box-mini {
-  width: 75px; 
-  min-width: unset; 
+  width: auto; 
 }
 
 .number-mini {
-  font-size: 26px;
+  font-size: 24px; 
   font-weight: 800;
   display: inline-block;
   font-variant-numeric: tabular-nums; 
@@ -251,7 +245,7 @@ h1 {
 [dir="rtl"] .label-mini {
   letter-spacing: 0 !important;
   line-height: 1.6;
-  font-size: 11px;
+  font-size: 10px; 
   margin-top: 2px;
   text-transform: none; 
 }
