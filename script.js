@@ -62,12 +62,10 @@ function init() {
     btn.addEventListener('click', () => {
       if (btn.classList.contains('active')) return;
 
-      // 1. Trigger the fade-out animation
+      // Only fade out the changing content, NOT the share button
       headerText.classList.add('content-hidden');
       container.classList.add('content-hidden');
-      shareBtn.classList.add('content-hidden');
 
-      // 2. Wait for fade-out (300ms) before swapping content
       setTimeout(() => {
         langBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -75,10 +73,8 @@ function init() {
         
         updateUI();
 
-        // 3. Trigger the fade-in animation
         headerText.classList.remove('content-hidden');
         container.classList.remove('content-hidden');
-        shareBtn.classList.remove('content-hidden');
       }, 300);
     });
   });
@@ -136,8 +132,6 @@ function renderExams() {
 
     const card = document.createElement("div");
     card.className = "exam-card";
-    
-    // Add staggered animation delay based on index (0s, 0.08s, 0.16s, etc.)
     card.style.animationDelay = `${index * 0.08}s`;
 
     card.innerHTML = `
@@ -174,7 +168,8 @@ function renderExams() {
 function startCountdowns() {
   clearInterval(countdownInterval);
 
-  countdownInterval = setInterval(() => {
+  // The logic that runs every second
+  const tick = () => {
     const now = new Date().getTime();
 
     examsDB.forEach(exam => {
@@ -199,12 +194,50 @@ function startCountdowns() {
       setValue(`minutes-${exam.id}`, minutes);
       setValue(`seconds-${exam.id}`, seconds);
     });
-  }, 1000);
+  };
+
+  // Run immediately so we don't wait 1 second to see the numbers
+  tick(); 
+  countdownInterval = setInterval(tick, 1000);
+}
+
+// Function to smoothly animate numbers from 0 to Target
+function animateValue(obj, end, duration) {
+  let startTimestamp = null;
+  obj.dataset.animating = "true";
+  
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    
+    // Cubic Ease-Out for a really smooth slow-down at the end
+    const easeProgress = 1 - Math.pow(1 - progress, 3);
+    
+    obj.innerText = Math.floor(easeProgress * end);
+    
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    } else {
+      obj.innerText = end;
+      obj.dataset.animating = "false";
+      obj.dataset.animated = "true";
+    }
+  };
+  window.requestAnimationFrame(step);
 }
 
 function setValue(id, value) {
   const el = document.getElementById(id);
-  if (el && el.innerText != value) el.innerText = value; 
+  if (!el) return;
+  
+  // If element hasn't been animated yet, trigger the fast roll-up!
+  if (el.dataset.animated !== "true" && el.dataset.animating !== "true") {
+    animateValue(el, value, 1200); // 1.2 second animation
+  } 
+  // Otherwise, just update the text normally every second
+  else if (el.dataset.animating !== "true" && el.innerText != value) {
+    el.innerText = value; 
+  }
 }
 
 shareBtn.addEventListener("click", async () => {
