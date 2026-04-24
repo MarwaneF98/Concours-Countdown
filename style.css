@@ -45,6 +45,7 @@ h1 {
   font-weight: 800;
   letter-spacing: 2px;
   margin-bottom: 5px;
+  line-height: 1.4; /* Fixed Arabic font cutoff */
 }
 
 .header-text p {
@@ -52,22 +53,36 @@ h1 {
   font-size: 16px;
 }
 
-select {
-  padding: 10px 20px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  font-family: inherit;
-  font-size: 14px;
-  cursor: pointer;
-  outline: none;
-  backdrop-filter: blur(10px);
+/* 3 Squares for Languages */
+.lang-squares {
+  display: flex;
+  gap: 10px;
 }
 
-select option {
-  background: #111;
+.lang-btn {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+
+.lang-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.lang-btn.active {
+  background: white;
+  color: black;
+  border-color: white;
 }
 
 /* Exams Grid System */
@@ -84,6 +99,8 @@ select option {
   padding: 30px 20px;
   backdrop-filter: blur(10px);
   transition: transform 0.3s ease, background 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .exam-card:hover {
@@ -92,23 +109,47 @@ select option {
 }
 
 .exam-title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   margin-bottom: 5px;
+  line-height: 1.5; /* Fixed Arabic font cutoff */
 }
 
 .exam-subtitle {
   font-size: 13px;
   opacity: 0.5;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 }
 
+.portal-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #a8a8a8;
+  text-decoration: none;
+  margin-bottom: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 12px;
+  border-radius: 8px;
+  align-self: center;
+  transition: all 0.2s;
+}
+
+.portal-link:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Force Left-to-Right layout on the countdown numbers even in Arabic */
 .countdown-mini {
   display: flex;
   justify-content: center;
   gap: 15px;
   min-height: 80px;
   align-items: center;
+  direction: ltr; 
 }
 
 .time-box-mini {
@@ -138,6 +179,8 @@ select option {
   color: #4ade80;
   letter-spacing: 1px;
   animation: pulse 2s infinite;
+  text-align: center;
+  width: 100%;
 }
 
 .share-btn {
@@ -200,7 +243,6 @@ select option {
   100% { opacity: 1; }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .header { flex-direction: column; text-align: center; justify-content: center; }
   .header-text { text-align: center; }
