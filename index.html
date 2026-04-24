@@ -1,312 +1,41 @@
-/* 1. Global Reset & Base Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="ar" id="htmlTag" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Moroccan Exams Countdown</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-/* Remove the blue tap animation on mobile and default focus outlines */
-button, a {
-  -webkit-tap-highlight-color: transparent;
-  outline: none;
-}
+<div class="container">
+  
+  <div class="header">
+    <div class="header-text">
+      <h1 id="main-title">الامتحانات المغربية</h1>
+      <p id="main-subtitle">تتبع كل المباريات والامتحانات الوطنية</p>
+    </div>
+    
+    <div class="lang-squares">
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn active" data-lang="ar">AR</button>
+    </div>
+  </div>
 
-button:focus, a:focus {
-  outline: none;
-}
+  <div id="exams-container" class="exams-grid"></div>
 
-body {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a0a, #111, #000);
-  color: white;
-  font-family: 'Inter', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: hidden;
-  transition: all 0.3s ease;
-}
+  <button id="shareBtn" class="share-btn">مشاركة</button>
 
-/* 2. Layout Containers */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  padding: 40px 20px 100px 20px;
-  text-align: center;
-}
+</div>
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 50px;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+<div class="footer">
+  <span id="footer-text">تم التطوير بواسطة</span> 
+  <a href="https://instagram.com/marwanef98" target="_blank">marwanef98</a> & 
+  <a href="https://instagram.com/z3kri" target="_blank">z3kri</a>
+</div>
 
-.header-text {
-  text-align: left;
-}
+<script src="script.js"></script>
 
-/* 3. Typography & RTL Specific Adjustments */
-[dir="rtl"] {
-  font-family: 'Cairo', 'Inter', sans-serif; /* Cairo handles Arabic descenders better */
-}
-
-[dir="rtl"] .header-text {
-  text-align: right;
-}
-
-h1 {
-  font-size: 36px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  margin-bottom: 5px;
-  line-height: 1.4;
-}
-
-[dir="rtl"] h1 {
-  letter-spacing: 0px !important; 
-  line-height: 1.8; 
-  padding-bottom: 8px;
-  padding-top: 5px;
-}
-
-.header-text p {
-  opacity: 0.6;
-  font-size: 16px;
-}
-
-/* 4. Language Switcher Squares */
-.lang-squares {
-  display: flex;
-  gap: 10px;
-}
-
-.lang-btn {
-  width: 45px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(5px);
-}
-
-.lang-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.lang-btn.active {
-  background: white;
-  color: black;
-  border-color: white;
-}
-
-/* 5. Exams Grid System */
-.exams-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 25px;
-}
-
-.exam-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  padding: 30px 20px;
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s ease, background 0.3s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.exam-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.exam-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 5px;
-  line-height: 1.5;
-}
-
-[dir="rtl"] .exam-title {
-  line-height: 1.8; 
-  padding-bottom: 5px;
-  letter-spacing: 0;
-}
-
-.exam-subtitle {
-  font-size: 13px;
-  opacity: 0.5;
-  margin-bottom: 15px;
-}
-
-/* 6. Links & Buttons */
-.portal-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #a8a8a8;
-  text-decoration: none;
-  margin-bottom: 25px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 6px 12px;
-  border-radius: 8px;
-  align-self: center;
-  transition: all 0.2s;
-}
-
-.portal-link:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.share-btn {
-  margin-top: 50px;
-  padding: 14px 36px;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  border: none;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  cursor: pointer;
-  transition: transform .3s ease, background .3s ease;
-}
-
-.share-btn:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* Fix for Arabic Share Button text being cut/disconnected */
-[dir="rtl"] .share-btn {
-  letter-spacing: 0 !important; 
-  line-height: 1.6; 
-}
-
-/* 7. Countdown System (Fixed Clipping) */
-.countdown-mini {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  min-height: 85px;
-  align-items: center;
-  direction: ltr; /* Keeps numbers in 00:00:00 order */
-}
-
-.time-box-mini {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 12px 8px;
-  border-radius: 12px;
-  width: 70px; /* Slightly wider to prevent text overflow */
-  transition: width 0.3s ease;
-}
-
-[dir="rtl"] .time-box-mini {
-  width: auto;
-  min-width: 75px; /* Arabic words like "الدقائق" need more horizontal room */
-}
-
-.number-mini {
-  font-size: 24px;
-  font-weight: 800;
-  display: inline-block;
-}
-
-.label-mini {
-  font-size: 10px;
-  opacity: 0.6;
-  margin-top: 4px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-[dir="rtl"] .label-mini {
-  letter-spacing: 0 !important;
-  line-height: 1.6;
-  font-size: 11px;
-  margin-top: 2px;
-  text-transform: none; /* Uppercase doesn't apply to Arabic */
-}
-
-/* 8. Footer & Misc */
-.arrived-msg {
-  font-weight: 800;
-  color: #4ade80;
-  letter-spacing: 1px;
-  animation: pulse 2s infinite;
-  text-align: center;
-  width: 100%;
-}
-
-.footer {
-  position: fixed;
-  bottom: 25px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 13px;
-  opacity: .5;
-  letter-spacing: 2px;
-  background: linear-gradient(to top, #000 50%, transparent);
-  padding-top: 20px;
-  pointer-events: none; /* Prevents blocking clicks on cards behind it */
-}
-
-.footer a {
-  pointer-events: auto;
-  color: white;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  padding-bottom: 2px;
-  transition: opacity .2s ease, border .2s ease;
-}
-
-.footer a:hover {
-  opacity: 1;
-  border-bottom: 1px solid white;
-}
-
-/* Fix for the Arabic footer text being cut/disconnected */
-[dir="rtl"] .footer {
-  letter-spacing: 0 !important; 
-  line-height: 1.8; 
-  font-size: 14px; 
-}
-
-[dir="rtl"] .footer span, 
-[dir="rtl"] .footer a {
-  letter-spacing: 0 !important;
-}
-
-/* 9. Animations & Media Queries */
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
-}
-
-@media (max-width: 768px) {
-  .header { flex-direction: column; text-align: center; justify-content: center; }
-  .header-text { text-align: center; }
-  [dir="rtl"] .header-text { text-align: center; }
-  .exams-grid { grid-template-columns: 1fr; }
-  .container { padding-bottom: 150px; } /* More space for fixed footer */
-}
+</body>
+</html>
