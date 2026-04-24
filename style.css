@@ -5,7 +5,6 @@
   box-sizing: border-box;
 }
 
-/* REMOVED overflow-x: hidden from here to fix the mobile scrolling bug! */
 html {
   background-color: #000;
   scroll-behavior: smooth;
@@ -17,26 +16,25 @@ button, a {
   font-family: inherit;
 }
 
+/* FIX 1: Removed flexbox and overflow from body to fix mobile height calculation */
 body {
   min-height: 100vh;
   min-height: 100dvh;
-  width: 100%; /* Safely prevents horizontal scroll without breaking vertical scroll */
+  width: 100%; 
   background: #000 linear-gradient(135deg, #0a0a0a, #111, #000);
   background-attachment: fixed;
   color: white;
   font-family: 'Inter', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: hidden; /* Safe to put only on body */
 }
 
 /* 2. Layout Containers */
 .container {
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto; /* FIX 2: Centers the container since we removed flex from the body */
   padding: 40px 20px 0 20px; 
   text-align: center;
+  overflow-x: clip; /* FIX 3: 'clip' safely prevents horizontal scroll without breaking vertical scroll */
 }
 
 .header {
@@ -181,11 +179,12 @@ h1 {
 
 /* 7. SHARE BUTTON LAYOUT */
 .share-wrapper {
-  padding: 50px 0 150px 0; /* Huge bottom padding to guarantee it clears the footer */
+  padding: 50px 0 150px 0; 
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: 100;
+  z-index: 999;
+  transform: translateZ(0); /* FIX 4: Forces hardware acceleration so the button never vanishes during scrolling */
 }
 
 .share-btn {
@@ -346,5 +345,5 @@ h1 {
   .header-text { text-align: center; }
   [dir="rtl"] .header-text { text-align: center; }
   .exams-grid { grid-template-columns: 1fr; }
-  .share-wrapper { padding-bottom: 250px; } /* Ensures safe scrolling past footer on mobile */
+  .share-wrapper { padding-bottom: 250px; } 
 }
