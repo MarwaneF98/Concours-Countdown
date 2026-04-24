@@ -8,6 +8,7 @@
 html {
   background-color: #000;
   scroll-behavior: smooth;
+  height: 100%;
 }
 
 button, a {
@@ -16,25 +17,33 @@ button, a {
   font-family: inherit;
 }
 
-/* FIX 1: Removed flexbox and overflow from body to fix mobile height calculation */
+/* FIX 1: Let the body flow naturally without flexbox or fixed backgrounds */
 body {
-  min-height: 100vh;
-  min-height: 100dvh;
-  width: 100%; 
-  background: #000 linear-gradient(135deg, #0a0a0a, #111, #000);
-  background-attachment: fixed;
+  position: relative;
+  width: 100%;
+  min-height: 100%;
   color: white;
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* FIX 2: This creates a "fake" fixed background layer that completely bypasses the mobile disappearing bug! */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #000 linear-gradient(135deg, #0a0a0a, #111, #000);
+  z-index: -1; 
+  pointer-events: none;
 }
 
 /* 2. Layout Containers */
 .container {
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto; /* FIX 2: Centers the container since we removed flex from the body */
+  margin: 0 auto; 
   padding: 40px 20px 0 20px; 
   text-align: center;
-  overflow-x: clip; /* FIX 3: 'clip' safely prevents horizontal scroll without breaking vertical scroll */
 }
 
 .header {
@@ -50,7 +59,7 @@ body {
   text-align: left;
 }
 
-/* 3. Typography & RTL Specific Adjustments */
+/* 3. Typography, RTL, & Title Animations */
 [dir="rtl"] {
   font-family: 'Cairo', 'Inter', sans-serif; 
 }
@@ -65,6 +74,9 @@ h1 {
   letter-spacing: 2px;
   margin-bottom: 5px;
   line-height: 1.4;
+  /* NEW: Title Animation */
+  opacity: 0;
+  animation: dropIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 [dir="rtl"] h1 {
@@ -75,8 +87,10 @@ h1 {
 }
 
 .header-text p {
-  opacity: 0.6;
   font-size: 16px;
+  /* NEW: Subtitle Animation (slightly delayed) */
+  opacity: 0;
+  animation: dropIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
 }
 
 /* 4. Language Switcher Squares */
@@ -179,12 +193,11 @@ h1 {
 
 /* 7. SHARE BUTTON LAYOUT */
 .share-wrapper {
-  padding: 50px 0 150px 0; 
+  padding: 60px 0 150px 0; 
   display: flex;
   justify-content: center;
   position: relative;
   z-index: 999;
-  transform: translateZ(0); /* FIX 4: Forces hardware acceleration so the button never vanishes during scrolling */
 }
 
 .share-btn {
@@ -311,6 +324,27 @@ h1 {
 }
 
 /* 10. Animations & Transitions */
+
+/* NEW: Title slide-down effect */
+@keyframes dropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 0.6; /* For subtitle */
+    transform: translateY(0);
+  }
+}
+
+h1 { animation-name: dropIn; animation-fill-mode: forwards; }
+h1 { opacity: 0; }
+@keyframes dropInH1 {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+h1 { animation: dropInH1 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
 
 @keyframes fadeUp {
   0% {
