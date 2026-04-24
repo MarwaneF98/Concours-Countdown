@@ -1,3 +1,4 @@
+/* 1. Global Reset & Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -16,6 +17,7 @@ body {
   transition: all 0.3s ease;
 }
 
+/* 2. Layout Containers */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -36,21 +38,13 @@ body {
   text-align: left;
 }
 
+/* 3. Typography & RTL Specific Adjustments */
+[dir="rtl"] {
+  font-family: 'Cairo', 'Inter', sans-serif; /* Cairo handles Arabic descenders better */
+}
+
 [dir="rtl"] .header-text {
   text-align: right;
-}
-
-/* This specifically targets the Arabic title to fix the clipping */
-[dir="rtl"] h1 {
-  letter-spacing: 0px; /* Crucial: Arabic letters must not have letter-spacing */
-  line-height: 1.8; /* Give Cairo font more room to breathe */
-  padding-bottom: 8px; /* Prevents the bottom dots/tails from clipping */
-  padding-top: 5px; /* Prevents the top accents from clipping */
-}
-
-[dir="rtl"] .exam-title {
-  line-height: 1.8; 
-  padding-bottom: 5px;
 }
 
 h1 {
@@ -58,16 +52,22 @@ h1 {
   font-weight: 800;
   letter-spacing: 2px;
   margin-bottom: 5px;
-  line-height: 1.4; 
+  line-height: 1.4;
 }
 
+[dir="rtl"] h1 {
+  letter-spacing: 0px !important; 
+  line-height: 1.8; 
+  padding-bottom: 8px;
+  padding-top: 5px;
+}
 
 .header-text p {
   opacity: 0.6;
   font-size: 16px;
 }
 
-/* 3 Squares for Languages */
+/* 4. Language Switcher Squares */
 .lang-squares {
   display: flex;
   gap: 10px;
@@ -99,7 +99,7 @@ h1 {
   border-color: white;
 }
 
-/* Exams Grid System */
+/* 5. Exams Grid System */
 .exams-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -126,7 +126,13 @@ h1 {
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 5px;
-  line-height: 1.5; /* Fixed Arabic font cutoff */
+  line-height: 1.5;
+}
+
+[dir="rtl"] .exam-title {
+  line-height: 1.8; 
+  padding-bottom: 5px;
+  letter-spacing: 0;
 }
 
 .exam-subtitle {
@@ -135,6 +141,7 @@ h1 {
   margin-bottom: 15px;
 }
 
+/* 6. Links & Buttons */
 .portal-link {
   display: inline-flex;
   align-items: center;
@@ -156,48 +163,6 @@ h1 {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* Force Left-to-Right layout on the countdown numbers even in Arabic */
-.countdown-mini {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  min-height: 80px;
-  align-items: center;
-  direction: ltr; 
-}
-
-.time-box-mini {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 12px 10px;
-  border-radius: 12px;
-  width: 65px;
-}
-
-.number-mini {
-  font-size: 24px;
-  font-weight: 800;
-  display: inline-block; /* Helps with transform animations */
-}
-
-.label-mini {
-  font-size: 10px;
-  opacity: 0.6;
-  margin-top: 4px;
-  letter-spacing: 1px;
-}
-
-.arrived-msg {
-  font-weight: 800;
-  color: #4ade80;
-  letter-spacing: 1px;
-  animation: pulse 2s infinite;
-  text-align: center;
-  width: 100%;
-}
-
 .share-btn {
   margin-top: 50px;
   padding: 14px 36px;
@@ -217,6 +182,64 @@ h1 {
   background: rgba(255, 255, 255, 0.15);
 }
 
+/* 7. Countdown System (Fixed Clipping) */
+.countdown-mini {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  min-height: 85px;
+  align-items: center;
+  direction: ltr; /* Keeps numbers in 00:00:00 order */
+}
+
+.time-box-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 12px 8px;
+  border-radius: 12px;
+  width: 70px; /* Slightly wider to prevent text overflow */
+  transition: width 0.3s ease;
+}
+
+[dir="rtl"] .time-box-mini {
+  width: auto;
+  min-width: 75px; /* Arabic words like "الدقائق" need more horizontal room */
+}
+
+.number-mini {
+  font-size: 24px;
+  font-weight: 800;
+  display: inline-block;
+}
+
+.label-mini {
+  font-size: 10px;
+  opacity: 0.6;
+  margin-top: 4px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .label-mini {
+  letter-spacing: 0 !important;
+  line-height: 1.6;
+  font-size: 11px;
+  margin-top: 2px;
+  text-transform: none; /* Uppercase doesn't apply to Arabic */
+}
+
+/* 8. Footer & Misc */
+.arrived-msg {
+  font-weight: 800;
+  color: #4ade80;
+  letter-spacing: 1px;
+  animation: pulse 2s infinite;
+  text-align: center;
+  width: 100%;
+}
+
 .footer {
   position: fixed;
   bottom: 25px;
@@ -228,9 +251,11 @@ h1 {
   letter-spacing: 2px;
   background: linear-gradient(to top, #000 50%, transparent);
   padding-top: 20px;
+  pointer-events: none; /* Prevents blocking clicks on cards behind it */
 }
 
 .footer a {
+  pointer-events: auto;
   color: white;
   text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
@@ -243,8 +268,7 @@ h1 {
   border-bottom: 1px solid white;
 }
 
-
-
+/* 9. Animations & Media Queries */
 @keyframes pulse {
   0% { opacity: 1; }
   50% { opacity: 0.5; }
@@ -256,4 +280,5 @@ h1 {
   .header-text { text-align: center; }
   [dir="rtl"] .header-text { text-align: center; }
   .exams-grid { grid-template-columns: 1fr; }
+  .container { padding-bottom: 150px; } /* More space for fixed footer */
 }
