@@ -23,7 +23,8 @@ const i18n = {
   }
 };
 
-// Expanded Database of Moroccan Exams with Official Websites
+// Database of Moroccan Exams with Official Websites
+// FUTURE AI UPGRADE: You will eventually delete this array and use fetch() to get this from your Gemini backend!
 const examsDB = [
   { id: "bac_nat", month: 6, day: 10, en: "National Baccalaureate", fr: "Baccalauréat National", ar: "الامتحان الوطني للبكالوريا", link: "https://massarservice.men.gov.ma/moutamadris" },
   { id: "bac_reg", month: 6, day: 5,  en: "Regional Baccalaureate", fr: "Baccalauréat Régional", ar: "الامتحان الجهوي للبكالوريا", link: "https://massarservice.men.gov.ma/moutamadris" },
@@ -163,13 +164,11 @@ function startCountdowns() {
   }, 1000);
 }
 
+// Clean, simple text update without any animation
 function setValue(id, value) {
   const el = document.getElementById(id);
   if (el && el.innerText != value) {
     el.innerText = value;
-    el.classList.remove("pop");
-    void el.offsetWidth; // trigger reflow
-    el.classList.add("pop");
   }
 }
 
