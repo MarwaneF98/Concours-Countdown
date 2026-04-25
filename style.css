@@ -307,17 +307,40 @@ h1 {
   transform: translateX(-5px);
 }
 
+/* -------------------------------------------
+   News Link: Default LTR (English & French) 
+   Space Optimization & Crisp Typography
+-------------------------------------------- */
 .news-link {
   color: #d1d5db;
   text-decoration: none;
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.5;
   display: block;
   transition: color 0.3s ease;
+  
+  /* LTR Optimization */
+  letter-spacing: -0.015em;  
+  word-spacing: 0.05em;      
+  text-align: left;
 }
 
 .news-link:hover {
   color: #4ade80;
+}
+
+/* -------------------------------------------
+   News Link: RTL (Arabic) 
+   Kashida Elongation & Safe Connection
+-------------------------------------------- */
+[dir="rtl"] .news-link {
+  text-align: justify;
+  text-justify: kashida;     
+  line-height: 1.85;         
+  
+  /* حماية الخط العربي: منع تقطع الحروف عند استخدام Justify */
+  letter-spacing: normal !important; 
+  word-spacing: normal !important;
 }
 
 /* 10. Footer & Misc */
