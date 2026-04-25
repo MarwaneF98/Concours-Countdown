@@ -2,53 +2,63 @@ import json
 import feedparser
 import google.generativeai as genai
 import os
+import re
 
-# ضع المفتاح هنا للتجربة السريعة فقط (احذفه قبل رفعه لـ GitHub)
-os.environ["GEMINI_API_KEY"] = "AIzaSyCmLrDbpFbW9tYd2_ojFm3pjMcOnZKoDxU"
-
+# Get the API key securely from GitHub Secrets (or local environment)
 API_KEY = os.environ.get("GEMINI_API_KEY")
-genai.configure(api_key=API_KEY)
 
-# استخدام Gemini 1.5 Flash لسرعته الفائقة
+if not API_KEY or API_KEY == "AIzaSyCmLrDbpFbW9tYd2_ojFm3pjMcOnZKoDxU":
+    print("❌ ERROR: Gemini API Key is missing! The script will fall back to original text.")
+else:
+    genai.configure(api_key=API_KEY)
+
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 def translate_with_gemini(raw_title):
+    if not API_KEY or API_KEY == "ضع_مفتاحك_هنا":
+        return {"ar": raw_title, "en": raw_title, "fr": raw_title}
+
     prompt = f"""
-    أنت خبير في نظام التعليم العالي المغربي (موقع توجيه نت).
-    ترجم إعلان المباراة التالي إلى العربية الفصحى الأكاديمية الدقيقة، والإنجليزية، والفرنسية.
+    Translate this Moroccan exam announcement into formal Arabic, English, and French.
+    Context: Moroccan Tawjihnet.
+    Terms: 'Concours' = 'مباراة', 'CPGE' = 'الأقسام التحضيرية'.
+    Headline: {raw_title}
     
-    القواعد الصارمة:
-    - استخدم كلمة 'مباراة' وليس 'مسابقة'.
-    - استخدم 'الأقسام التحضيرية' لـ CPGE.
-    - استخدم 'المدارس العليا' لـ Grandes Ecoles.
-    - إذا كان الإعلان الأصلي بالفرنسية، صغه بعربية مغربية أكاديمية سليمة.
-    
-    الإعلان: {raw_title}
-    
-    أرجع فقط كود JSON بهذا الشكل: {{"ar": "...", "en": "...", "fr": "..."}}
-    بدون أي نصوص إضافية أو علامات Markdown.
+    Return ONLY a JSON dictionary exactly like this:
+    {{"ar": "...", "en": "...", "fr": "..."}}
     """
     
     try:
         response = model.generate_content(prompt)
-        clean_json = response.text.replace('```json', '').replace('```', '').strip()
-        return json.loads(clean_json)
+        text = response.text
+        
+        # Clever way to extract JSON even if Gemini adds markdown or extra text
+        json_match = re.search(r'\{.*\}', text, re.DOTALL)
+        if json_match:
+            clean_json = json_match.group(0)
+            return json.loads(clean_json)
+        else:
+            raise ValueError("No valid JSON found in Gemini response.")
+            
     except Exception as e:
-        print(f"Gemini error: {e}")
+        print(f"⚠️ Translation failed for '{raw_title[:20]}...': {e}")
+        # Fallback to original text if AI fails
         return {"ar": raw_title, "en": raw_title, "fr": raw_title}
 
 def scrape_tawjihnet_ai():
-    print("🧠 جاري استخدام Gemini Flash لتحليل خلاصة Tawjihnet...")
+    print("🧠 Starting Gemini AI Scraper...")
     rss_url = "https://www.tawjihnet.net/feed/"
     
     try:
         feed = feedparser.parse(rss_url)
         news_items = []
         
-        # تجربة على أول 5 أخبار فقط للسرعة
-        for entry in feed.entries[:5]:
-            print(f"🤖 الذكاء الاصطناعي يترجم: {entry.title[:40]}...")
-            
+        # CHANGED: Now fetching the top 15 news items instead of 5
+        entries = feed.entries[:15]
+        print(f"✅ Found {len(entries)} items to translate.")
+        
+        for entry in entries:
+            print(f"🤖 Processing: {entry.title[:40]}...")
             translations = translate_with_gemini(entry.title)
             
             news_items.append({
@@ -62,10 +72,10 @@ def scrape_tawjihnet_ai():
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(news_items, f, ensure_ascii=False, indent=2)
             
-        print("\n✨ السحر اكتمل! افتح ملف tawjihnet_news.json لترى دقة الترجمة.")
+        print(f"\n✨ Success! Saved {len(news_items)} translated items to tawjihnet_news.json.")
 
     except Exception as e:
-        print(f"حدث خطأ: {e}")
+        print(f"❌ Scraper failed: {e}")
 
 if __name__ == "__main__":
     scrape_tawjihnet_ai()
