@@ -65,9 +65,8 @@ body {
   text-align: left;
 }
 
-/* 4. Typography, RTL, & Pro Title Animations */
+/* 4. Typography & RTL */
 [dir="rtl"] {
-  /* FIX 1: Removed 'Inter' so the browser doesn't try to apply English spacing to Arabic system fonts while Cairo loads */
   font-family: 'Cairo', system-ui, -apple-system, sans-serif; 
 }
 
@@ -80,9 +79,7 @@ h1 {
   font-weight: 800;
   margin-bottom: 5px;
   line-height: 1.4;
-  opacity: 0;
-  /* FIX 2: Added a 0.15s delay to keep text invisible while the font downloads */
-  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  opacity: 0; /* Stays hidden until fonts load */
 }
 
 [dir="rtl"] h1 {
@@ -94,12 +91,23 @@ h1 {
 .header-text p {
   font-size: 16px;
   color: #a0a0a0;
-  opacity: 0;
-  /* FIX 3: Adjusted delay to 0.3s to maintain the staggered fade-in effect */
-  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  opacity: 0; /* Stays hidden until fonts load */
 }
 
-/* 5. Language Switcher Squares */
+/* 5. Trigger Animations ONLY when fonts are loaded */
+.fonts-loaded h1 {
+  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.fonts-loaded .header-text p {
+  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+.fonts-loaded .exam-card {
+  animation: proRevealCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 6. Language Switcher Squares */
 .lang-squares {
   display: flex;
   gap: 10px;
@@ -132,7 +140,7 @@ h1 {
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
-/* 6. Exams Grid System */
+/* 7. Exams Grid System */
 .exams-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -148,9 +156,7 @@ h1 {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
   display: flex;
   flex-direction: column;
-  opacity: 0; 
-  /* Also added a tiny delay here so cards don't flash default fonts */
-  animation: proRevealCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  opacity: 0; /* Stays hidden until fonts load */
 }
 
 .exam-card:hover {
@@ -177,7 +183,7 @@ h1 {
   margin-bottom: 15px;
 }
 
-/* 7. Links & Buttons */
+/* 8. Links & Buttons */
 .portal-link {
   display: inline-flex;
   align-items: center;
@@ -199,7 +205,7 @@ h1 {
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* 8. Countdown System */
+/* 9. Countdown System */
 .countdown-mini {
   display: flex;
   justify-content: center;
@@ -249,7 +255,7 @@ h1 {
   text-transform: none; 
 }
 
-/* 9. Live News Feed */
+/* 10. Live News Feed */
 .news-section {
   margin-top: 50px;
   background: rgba(255, 255, 255, 0.02);
@@ -293,19 +299,17 @@ h1 {
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
 }
 
-/* --- Responsive News Grid --- */
 .news-list {
   display: grid;
-  grid-template-columns: 1fr; /* 1 column on mobile */
+  grid-template-columns: 1fr; 
   gap: 0px 40px; 
 }
 
 @media (min-width: 768px) {
   .news-list {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on desktop */
+    grid-template-columns: repeat(2, 1fr); 
   }
 }
-/* --------------------------- */
 
 .news-item {
   padding: 15px 0;
@@ -321,7 +325,6 @@ h1 {
   transform: translateX(-5px);
 }
 
-/* News Link Typography (Natural Spacing) */
 .news-link {
   color: #d1d5db;
   text-decoration: none;
@@ -340,7 +343,7 @@ h1 {
   text-align: right; 
 }
 
-/* 10. Footer & Misc */
+/* 11. Footer & Misc */
 .arrived-msg {
   font-weight: 800;
   color: #4ade80;
@@ -385,7 +388,7 @@ h1 {
   font-size: 14px; 
 }
 
-/* 11. Pro Animations */
+/* 12. Pro Animations */
 @keyframes proRevealTitle {
   0% { opacity: 0; transform: translateY(-20px); filter: blur(8px); }
   100% { opacity: 1; transform: translateY(0); filter: blur(0); }
