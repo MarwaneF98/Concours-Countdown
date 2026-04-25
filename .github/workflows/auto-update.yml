@@ -1,11 +1,11 @@
-name: Auto-Update Tawjihnet News
+name: Auto-Update Tawjihnet News with Gemini AI
 
 on:
   schedule:
-    # السكريبت سيعمل مرتين في اليوم (كل 12 ساعة)
+    # السكريبت سيعمل كل 12 ساعة لجلب آخر المستجدات
     - cron: '0 */12 * * *'
   
-  # يسمح لك بتشغيل السكريبت يدويا متى شئت بضغطة زر من داخل GitHub
+  # يسمح لك بتشغيل التحديث يدوياً بضغطة زر من تبويب Actions في GitHub
   workflow_dispatch:
 
 permissions:
@@ -29,7 +29,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           
-      - name: Run Scraper
+      - name: Run AI Scraper
+        env:
+          # هذا السطر يربط مفتاحك السري المخزن في GitHub بالسكريبت
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scraper.py
         
       - name: Commit and Push Changes
@@ -38,5 +41,5 @@ jobs:
           git config --global user.email 'action@github.com'
           git add tawjihnet_news.json
           
-          # سيقوم السيرفر بالحفظ (Commit) فقط إذا وجد أن هناك أخبارا جديدة فعلا
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update translated news [skip ci]" && git push)
+          # الحفظ والدفع فقط في حالة وجود تغييرات حقيقية في ملف الأخبار
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update AI translated news [skip ci]" && git push)
