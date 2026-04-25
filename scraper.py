@@ -7,7 +7,7 @@ import os
 # We get the key from the system environment for security
 API_KEY = os.environ.get("GEMINI_API_KEY")
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-2.5-flash')
 
 def translate_with_gemini(raw_title):
     prompt = f"""
