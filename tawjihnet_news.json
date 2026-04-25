@@ -1,0 +1,47 @@
+import json
+import requests
+from bs4 import BeautifulSoup
+
+def scrape_tawjihnet():
+    print("Fetching latest updates from Tawjihnet...")
+    url = "https://www.tawjihnet.net/actualites/"
+    
+    # Headers to make the request look like a real browser
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+
+    try:
+        response = requests.get(url, headers=headers, timeout=15)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        news_items = []
+        
+        # Tawjihnet usually wraps articles in <article> tags or specific divs. 
+        # We will target standard heading links inside the main content area.
+        articles = soup.find_all('h2', class_='entry-title')
+        
+        for article in articles[:15]: # Grab the top 15 latest announcements
+            link_tag = article.find('a')
+            if link_tag:
+                title = link_tag.text.strip()
+                link = link_tag['href']
+                
+                news_items.append({
+                    "title": title,
+                    "link": link
+                })
+                print(f"Found: {title}")
+
+        # Save to JSON
+        with open('tawjihnet_news.json', 'w', encoding='utf-8') as f:
+            json.dump(news_items, f, ensure_ascii=False, indent=2)
+            
+        print(f"Successfully saved {len(news_items)} updates to tawjihnet_news.json")
+
+    except Exception as e:
+        print(f"Failed to scrape Tawjihnet: {e}")
+
+if __name__ == "__main__":
+    scrape_tawjihnet()
