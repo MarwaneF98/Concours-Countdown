@@ -7,10 +7,19 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Cairo:wght@400;600;700;800&display=block" rel="stylesheet">
   
   <link rel="stylesheet" href="style.css">
+
+  <script>
+    document.fonts.ready.then(function() {
+      document.documentElement.classList.add('fonts-loaded');
+    });
+    // Fallback: If internet is terrible, show text anyway after 1.5s
+    setTimeout(function() {
+      document.documentElement.classList.add('fonts-loaded');
+    }, 1500);
+  </script>
 </head>
 <body>
 
