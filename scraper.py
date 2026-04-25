@@ -6,8 +6,8 @@ import os
 
 def translate_text(text, target_lang):
     try:
-        # استخدام مترجم جوجل
-        return GoogleTranslator(source='ar', target=target_lang).translate(text)
+        # استخدام خاصية التعرف التلقائي على اللغة (source='auto')
+        return GoogleTranslator(source='auto', target=target_lang).translate(text)
     except Exception as e:
         return text
 
@@ -25,21 +25,22 @@ def scrape_tawjihnet():
         soup = BeautifulSoup(response.text, 'html.parser')
         
         news_items = []
-        # استهداف جميع العناوين في الصفحة
         articles = soup.find_all('h2', class_='entry-title')
         
-        print(f"تم العثور على {len(articles)} خبراً. جاري الترجمة واستخراج الروابط...")
+        print(f"تم العثور على {len(articles)} خبراً. جاري معالجة اللغات...")
         
-        # إزالة التحديد السابق [:10] لجلب كل شيء
         for article in articles:
             link_tag = article.find('a')
             if link_tag:
-                ar_title = link_tag.text.strip()
-                real_link = link_tag['href'] # استخراج الرابط الحقيقي للخبر
+                raw_title = link_tag.text.strip() # النص الأصلي (قد يكون فرنسي أو عربي)
+                real_link = link_tag['href']
                 
-                print(f"-> {ar_title}")
-                en_title = translate_text(ar_title, 'en')
-                fr_title = translate_text(ar_title, 'fr')
+                print(f"-> النص الأصلي: {raw_title}")
+                
+                # إجبار الترجمة لكل لغة بناءً على التعرف التلقائي
+                ar_title = translate_text(raw_title, 'ar')
+                en_title = translate_text(raw_title, 'en')
+                fr_title = translate_text(raw_title, 'fr')
                 
                 news_items.append({
                     "link": real_link,
@@ -48,12 +49,11 @@ def scrape_tawjihnet():
                     "fr": fr_title
                 })
 
-        # حفظ الملف في نفس مسار السكريبت
         filepath = os.path.join(os.path.dirname(__file__), 'tawjihnet_news.json')
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(news_items, f, ensure_ascii=False, indent=2)
             
-        print("\nنجاح! تم استخراج جميع الأخبار الحقيقية وحفظها في tawjihnet_news.json")
+        print("\nنجاح! تم ضبط اللغات وحفظها في tawjihnet_news.json")
 
     except Exception as e:
         print(f"فشل الاتصال أو الاستخراج: {e}")
