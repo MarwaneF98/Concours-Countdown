@@ -289,14 +289,24 @@ h1 {
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
 }
 
+/* --- Responsive News Grid --- */
+.news-list {
+  display: grid;
+  grid-template-columns: 1fr; /* 1 column on mobile */
+  gap: 0px 40px; 
+}
+
+@media (min-width: 768px) {
+  .news-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on desktop */
+  }
+}
+/* --------------------------- */
+
 .news-item {
   padding: 15px 0;
   border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
   transition: transform 0.3s ease;
-}
-
-.news-item:last-child {
-  border-bottom: none;
 }
 
 .news-item:hover {
@@ -307,17 +317,23 @@ h1 {
   transform: translateX(-5px);
 }
 
+/* News Link Typography (Natural Spacing) */
 .news-link {
   color: #d1d5db;
   text-decoration: none;
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.5;
   display: block;
   transition: color 0.3s ease;
+  text-align: left;
 }
 
 .news-link:hover {
   color: #4ade80;
+}
+
+[dir="rtl"] .news-link {
+  text-align: right; 
 }
 
 /* 10. Footer & Misc */
