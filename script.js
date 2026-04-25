@@ -4,22 +4,19 @@ const i18n = {
     mainTitle: "Moroccan Exams", mainSubtitle: "Track every major concours and exam",
     days: "DAYS", hours: "HOURS", minutes: "MIN", seconds: "SEC",
     builtBy: "Built by", countdownTo: "Countdown to",
-    arrived: "IT'S EXAM DAY! GOOD LUCK!", portal: "Official Portal",
-    visitors: "Total Real Visitors"
+    arrived: "IT'S EXAM DAY! GOOD LUCK!", portal: "Official Portal"
   },
   fr: {
     mainTitle: "Examens Marocains", mainSubtitle: "Suivez chaque concours et examen majeur",
     days: "JOURS", hours: "HEURES", minutes: "MIN", seconds: "SEC",
     builtBy: "Créé par", countdownTo: "Prévu pour le",
-    arrived: "C'EST LE JOUR J ! BON COURAGE !", portal: "Portail Officiel",
-    visitors: "Total des Visiteurs"
+    arrived: "C'EST LE JOUR J ! BON COURAGE !", portal: "Portail Officiel"
   },
   ar: {
     mainTitle: "الامتحانات المغربية", mainSubtitle: "تتبع كل المباريات والامتحانات الوطنية",
     days: "أيام", hours: "ساعات", minutes: "دقيقة", seconds: "ثانية",
     builtBy: "تم التطوير بواسطة", countdownTo: "العد التنازلي لـ",
-    arrived: "لقد حان يوم الامتحان! بالتوفيق!", portal: "البوابة الرسمية",
-    visitors: "إجمالي الزوار الحقيقيين"
+    arrived: "لقد حان يوم الامتحان! بالتوفيق!", portal: "البوابة الرسمية"
   }
 };
 
@@ -52,7 +49,6 @@ const htmlTag = document.getElementById("htmlTag");
 const langBtns = document.querySelectorAll('.lang-btn');
 const container = document.getElementById("exams-container");
 const headerText = document.querySelector('.header-text');
-const visitorCountEl = document.getElementById("visitor-count");
 
 function init() {
   const activeBtn = document.querySelector('.lang-btn.active');
@@ -62,6 +58,7 @@ function init() {
     btn.addEventListener('click', () => {
       if (btn.classList.contains('active')) return;
 
+      // Trigger the sleek fade out
       headerText.classList.add('content-hidden');
       container.classList.add('content-hidden');
 
@@ -72,6 +69,7 @@ function init() {
         
         updateUI();
 
+        // Trigger the sleek fade in
         headerText.classList.remove('content-hidden');
         container.classList.remove('content-hidden');
       }, 350);
@@ -79,26 +77,6 @@ function init() {
   });
   
   updateUI();
-  initLiveVisitors();
-}
-
-// REAL Visitor Counter Logic
-async function initLiveVisitors() {
-  try {
-    // This hits a free API. The namespace 'marwanef98_exams' acts as your unique database table.
-    // Every time someone opens the page, it automatically adds +1 to your total count.
-    const response = await fetch("https://api.counterapi.dev/v1/marwanef98_exams/visits/up");
-    const data = await response.json();
-
-    // Roll up the real number smoothly!
-    if(data.count) {
-      animateValue(visitorCountEl, data.count, 2000);
-    }
-  } catch (error) {
-    console.log("Visitor API blocked by AdBlocker or failed.");
-    // Fallback just in case a user has an extreme adblocker running
-    visitorCountEl.innerText = "1"; 
-  }
 }
 
 function getNextExamDate(month, day) {
@@ -126,7 +104,6 @@ function updateUI() {
   document.getElementById("main-title").innerText = i18n[currentLang].mainTitle;
   document.getElementById("main-subtitle").innerText = i18n[currentLang].mainSubtitle;
   document.getElementById("footer-text").innerText = i18n[currentLang].builtBy;
-  document.getElementById("visitor-text").innerText = i18n[currentLang].visitors;
 
   renderExams();
   startCountdowns();
@@ -152,6 +129,7 @@ function renderExams() {
     const card = document.createElement("div");
     card.className = "exam-card";
     
+    // Staggered professional appearance delay
     card.style.animationDelay = `${index * 0.06}s`;
 
     card.innerHTML = `
@@ -219,6 +197,7 @@ function startCountdowns() {
   countdownInterval = setInterval(tick, 1000);
 }
 
+// Pro-level Number Roll Animation
 function animateValue(obj, end, duration) {
   let startTimestamp = null;
   obj.dataset.animating = "true";
@@ -227,7 +206,9 @@ function animateValue(obj, end, duration) {
     if (!startTimestamp) startTimestamp = timestamp;
     const progress = Math.min((timestamp - startTimestamp) / duration, 1);
     
+    // Pro Cubic Ease-Out curve for an incredibly natural stop
     const easeProgress = 1 - Math.pow(1 - progress, 4);
+    
     obj.innerText = Math.floor(easeProgress * end);
     
     if (progress < 1) {
@@ -246,7 +227,7 @@ function setValue(id, value) {
   if (!el) return;
   
   if (el.dataset.animated !== "true" && el.dataset.animating !== "true") {
-    animateValue(el, value, 1500); 
+    animateValue(el, value, 1500); // 1.5s pro-smooth roll up
   } else if (el.dataset.animating !== "true" && el.innerText != value) {
     el.innerText = value; 
   }
