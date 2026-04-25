@@ -42,21 +42,7 @@ const moroccanMonths = {
   9: "شتنبر", 10: "أكتوبر", 11: "نونبر", 12: "دجنبر"
 };
 
-// Expanded Database of Moroccan Exams
-const examsDB = [
-  { id: "bac_nat", month: 6, day: 10, en: "National Baccalaureate", fr: "Baccalauréat National", ar: "الامتحان الوطني للبكالوريا", link: "https://massarservice.men.gov.ma/moutamadris" },
-  { id: "bac_reg", month: 6, day: 5,  en: "Regional Baccalaureate", fr: "Baccalauréat Régional", ar: "الامتحان الجهوي للبكالوريا", link: "https://massarservice.men.gov.ma/moutamadris" },
-  { id: "cnc",     month: 5, day: 14, en: "CNC (Engineering)", fr: "CNC (Ingénierie)", ar: "المباراة الوطنية المشتركة (CNC)", link: "https://www.cpge.ac.ma" },
-  { id: "cnaem",   month: 5, day: 25, en: "CNAEM (Commerce)", fr: "CNAEM (Commerce)", ar: "المباراة الوطنية (CNAEM)", link: "https://www.cnaem.ma" },
-  { id: "med",     month: 7, day: 20, en: "Medicine & Pharmacy", fr: "Médecine & Pharmacie (FMP)", ar: "مباراة الطب والصيدلة", link: "https://cursusup.gov.ma/medecine" },
-  { id: "ensa",    month: 7, day: 25, en: "ENSA Network", fr: "Réseau ENSA", ar: "شبكة المدارس الوطنية (ENSA)", link: "https://cursusup.gov.ma/ensa" },
-  { id: "ensam",   month: 7, day: 26, en: "ENSAM Network", fr: "Réseau ENSAM", ar: "المدارس الوطنية (ENSAM)", link: "https://cursusup.gov.ma/ensam" },
-  { id: "encg",    month: 7, day: 24, en: "ENCG Network", fr: "Réseau ENCG", ar: "التجارة والتسيير (ENCG)", link: "https://cursusup.gov.ma/encg" },
-  { id: "ena",     month: 7, day: 15, en: "ENA (Architecture)", fr: "ENA (Architecture)", ar: "الهندسة المعمارية (ENA)", link: "https://www.concoursena.ma" },
-  { id: "iav",     month: 7, day: 12, en: "IAV Hassan II (APESA)", fr: "IAV Hassan II (APESA)", ar: "معهد الحسن الثاني (IAV)", link: "https://www.iav.ac.ma" },
-  { id: "ispits",  month: 9, day: 15, en: "ISPITS (Nursing)", fr: "ISPITS (Infirmiers)", ar: "المهن التمريضية (ISPITS)", link: "https://ispits.sante.gov.ma" }
-];
-
+let examsDB = []; // سيتم ملؤها ديناميكياً من ملف exams.json
 let currentLang = "ar";
 let countdownInterval;
 
@@ -64,6 +50,19 @@ const htmlTag = document.getElementById("htmlTag");
 const langBtns = document.querySelectorAll('.lang-btn');
 const container = document.getElementById("exams-container");
 const headerText = document.querySelector('.header-text');
+
+// الدالة المسؤولة عن جلب البيانات
+async function loadExamsData() {
+  try {
+    const response = await fetch('exams.json');
+    if (!response.ok) throw new Error("تعذر جلب البيانات");
+    examsDB = await response.json();
+    init(); // تشغيل الواجهة فقط بعد التأكد من تحميل البيانات
+  } catch (error) {
+    console.error("خطأ في تحميل بيانات الامتحانات:", error);
+    container.innerHTML = `<div style="text-align:center; padding:50px; color:#ff6b6b; font-weight:bold;">عذراً، حدث خطأ أثناء تحميل تواريخ الامتحانات.</div>`;
+  }
+}
 
 function init() {
   const activeBtn = document.querySelector('.lang-btn.active');
@@ -256,4 +255,5 @@ function setValue(id, value) {
   }
 }
 
-init();
+// بدء التطبيق عبر استدعاء البيانات أولاً
+loadExamsData();
