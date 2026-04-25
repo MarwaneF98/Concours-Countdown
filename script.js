@@ -4,19 +4,22 @@ const i18n = {
     mainTitle: "Moroccan Exams", mainSubtitle: "Track every major concours and exam",
     days: "DAYS", hours: "HOURS", minutes: "MIN", seconds: "SEC",
     builtBy: "Built by", countdownTo: "Countdown to",
-    arrived: "IT'S EXAM DAY! GOOD LUCK!", portal: "Official Portal"
+    arrived: "IT'S EXAM DAY! GOOD LUCK!", portal: "Official Portal",
+    newsTitle: "Live Updates & News"
   },
   fr: {
     mainTitle: "Examens Marocains", mainSubtitle: "Suivez chaque concours et examen majeur",
     days: "JOURS", hours: "HEURES", minutes: "MIN", seconds: "SEC",
     builtBy: "Créé par", countdownTo: "Prévu pour le",
-    arrived: "C'EST LE JOUR J ! BON COURAGE !", portal: "Portail Officiel"
+    arrived: "C'EST LE JOUR J ! BON COURAGE !", portal: "Portail Officiel",
+    newsTitle: "Actualités en Direct"
   },
   ar: {
     mainTitle: "الامتحانات المغربية", mainSubtitle: "تتبع كل المباريات والامتحانات الوطنية",
     days: "أيام", hours: "ساعات", minutes: "دقيقة", seconds: "ثانية",
     builtBy: "تم التطوير بواسطة", countdownTo: "العد التنازلي لـ",
-    arrived: "لقد حان يوم الامتحان! بالتوفيق!", portal: "البوابة الرسمية"
+    arrived: "لقد حان يوم الامتحان! بالتوفيق!", portal: "البوابة الرسمية",
+    newsTitle: "آخر المستجدات الحية"
   }
 };
 
@@ -42,7 +45,8 @@ const moroccanMonths = {
   9: "شتنبر", 10: "أكتوبر", 11: "نونبر", 12: "دجنبر"
 };
 
-let examsDB = []; // سيتم ملؤها ديناميكياً من ملف exams.json
+let examsDB = [];
+let newsDB = [];
 let currentLang = "ar";
 let countdownInterval;
 
@@ -50,17 +54,32 @@ const htmlTag = document.getElementById("htmlTag");
 const langBtns = document.querySelectorAll('.lang-btn');
 const container = document.getElementById("exams-container");
 const headerText = document.querySelector('.header-text');
+const newsSection = document.getElementById("news-section");
 
-// الدالة المسؤولة عن جلب البيانات
 async function loadExamsData() {
   try {
     const response = await fetch('exams.json');
-    if (!response.ok) throw new Error("تعذر جلب البيانات");
+    if (!response.ok) throw new Error("Network response was not ok");
     examsDB = await response.json();
-    init(); // تشغيل الواجهة فقط بعد التأكد من تحميل البيانات
+    init();
   } catch (error) {
-    console.error("خطأ في تحميل بيانات الامتحانات:", error);
-    container.innerHTML = `<div style="text-align:center; padding:50px; color:#ff6b6b; font-weight:bold;">عذراً، حدث خطأ أثناء تحميل تواريخ الامتحانات.</div>`;
+    console.error("Failed to load exam dates:", error);
+    container.innerHTML = `<div style="text-align:center; padding:50px; color:#ff6b6b;">Failed to load data.</div>`;
+  }
+}
+
+async function loadNewsData() {
+  try {
+    const response = await fetch('tawjihnet_news.json');
+    if (response.ok) {
+      newsDB = await response.json();
+      if (newsDB.length > 0) {
+        newsSection.classList.remove('content-hidden');
+        renderNews();
+      }
+    }
+  } catch (error) {
+    console.log("No news file found or error loading news.");
   }
 }
 
@@ -74,6 +93,7 @@ function init() {
 
       headerText.classList.add('content-hidden');
       container.classList.add('content-hidden');
+      if (newsDB.length > 0) newsSection.classList.add('content-hidden');
 
       setTimeout(() => {
         langBtns.forEach(b => b.classList.remove('active'));
@@ -84,6 +104,7 @@ function init() {
 
         headerText.classList.remove('content-hidden');
         container.classList.remove('content-hidden');
+        if (newsDB.length > 0) newsSection.classList.remove('content-hidden');
       }, 350);
     });
   });
@@ -118,7 +139,23 @@ function updateUI() {
   document.getElementById("footer-text").innerText = i18n[currentLang].builtBy;
 
   renderExams();
+  renderNews();
   startCountdowns();
+}
+
+function renderNews() {
+  const newsContainer = document.getElementById("news-container");
+  if (!newsContainer || newsDB.length === 0) return;
+  
+  document.getElementById("news-title").innerText = i18n[currentLang].newsTitle;
+  newsContainer.innerHTML = "";
+  
+  newsDB.forEach(news => {
+    const item = document.createElement("div");
+    item.className = "news-item";
+    item.innerHTML = `<a href="${news.link}" target="_blank" class="news-link">${news[currentLang] || news.ar}</a>`;
+    newsContainer.appendChild(item);
+  });
 }
 
 function renderExams() {
@@ -140,7 +177,6 @@ function renderExams() {
 
     const card = document.createElement("div");
     card.className = "exam-card";
-    
     card.style.animationDelay = `${index * 0.06}s`;
 
     card.innerHTML = `
@@ -202,7 +238,6 @@ function startCountdowns() {
       setValue(`minutes-${exam.id}`, minutes);
       setValue(`seconds-${exam.id}`, seconds);
 
-      // التحديث الديناميكي للتمييز العربي أو إرجاعه للغات الأخرى
       if (currentLang === "ar") {
         document.getElementById(`label-days-${exam.id}`).innerText = getArabicLabel(days, 'days');
         document.getElementById(`label-hours-${exam.id}`).innerText = getArabicLabel(hours, 'hours');
@@ -255,5 +290,6 @@ function setValue(id, value) {
   }
 }
 
-// بدء التطبيق عبر استدعاء البيانات أولاً
+// Start sequence
 loadExamsData();
+loadNewsData();
