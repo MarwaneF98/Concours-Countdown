@@ -20,6 +20,21 @@ const i18n = {
   }
 };
 
+// Arabic Pluralization Rules Dictionary (Without Diacritics)
+const arPlurals = {
+  days: { zero: 'أيام', one: 'يوم', two: 'يومان', few: 'أيام', many: 'يوما', other: 'يوم' },
+  hours: { zero: 'ساعات', one: 'ساعة', two: 'ساعتان', few: 'ساعات', many: 'ساعة', other: 'ساعة' },
+  minutes: { zero: 'دقائق', one: 'دقيقة', two: 'دقيقتان', few: 'دقائق', many: 'دقيقة', other: 'دقيقة' },
+  seconds: { zero: 'ثواني', one: 'ثانية', two: 'ثانيتان', few: 'ثواني', many: 'ثانية', other: 'ثانية' }
+};
+
+const arPluralRules = new Intl.PluralRules('ar-MA');
+
+function getArabicLabel(value, unit) {
+  const form = arPluralRules.select(value); 
+  return arPlurals[unit][form];
+}
+
 // Official Moroccan Arabic Month Names
 const moroccanMonths = {
   1: "يناير", 2: "فبراير", 3: "مارس", 4: "أبريل",
@@ -58,7 +73,6 @@ function init() {
     btn.addEventListener('click', () => {
       if (btn.classList.contains('active')) return;
 
-      // Trigger the sleek fade out
       headerText.classList.add('content-hidden');
       container.classList.add('content-hidden');
 
@@ -69,7 +83,6 @@ function init() {
         
         updateUI();
 
-        // Trigger the sleek fade in
         headerText.classList.remove('content-hidden');
         container.classList.remove('content-hidden');
       }, 350);
@@ -129,7 +142,6 @@ function renderExams() {
     const card = document.createElement("div");
     card.className = "exam-card";
     
-    // Staggered professional appearance delay
     card.style.animationDelay = `${index * 0.06}s`;
 
     card.innerHTML = `
@@ -143,19 +155,19 @@ function renderExams() {
       <div class="countdown-mini" id="countdown-${exam.id}">
         <div class="time-box-mini">
           <div id="days-${exam.id}" class="number-mini">0</div>
-          <div class="label-mini">${i18n[currentLang].days}</div>
+          <div id="label-days-${exam.id}" class="label-mini">${i18n[currentLang].days}</div>
         </div>
         <div class="time-box-mini">
           <div id="hours-${exam.id}" class="number-mini">0</div>
-          <div class="label-mini">${i18n[currentLang].hours}</div>
+          <div id="label-hours-${exam.id}" class="label-mini">${i18n[currentLang].hours}</div>
         </div>
         <div class="time-box-mini">
           <div id="minutes-${exam.id}" class="number-mini">0</div>
-          <div class="label-mini">${i18n[currentLang].minutes}</div>
+          <div id="label-minutes-${exam.id}" class="label-mini">${i18n[currentLang].minutes}</div>
         </div>
         <div class="time-box-mini">
           <div id="seconds-${exam.id}" class="number-mini">0</div>
-          <div class="label-mini">${i18n[currentLang].seconds}</div>
+          <div id="label-seconds-${exam.id}" class="label-mini">${i18n[currentLang].seconds}</div>
         </div>
       </div>
     `;
@@ -190,6 +202,19 @@ function startCountdowns() {
       setValue(`hours-${exam.id}`, hours);
       setValue(`minutes-${exam.id}`, minutes);
       setValue(`seconds-${exam.id}`, seconds);
+
+      // التحديث الديناميكي للتمييز العربي أو إرجاعه للغات الأخرى
+      if (currentLang === "ar") {
+        document.getElementById(`label-days-${exam.id}`).innerText = getArabicLabel(days, 'days');
+        document.getElementById(`label-hours-${exam.id}`).innerText = getArabicLabel(hours, 'hours');
+        document.getElementById(`label-minutes-${exam.id}`).innerText = getArabicLabel(minutes, 'minutes');
+        document.getElementById(`label-seconds-${exam.id}`).innerText = getArabicLabel(seconds, 'seconds');
+      } else {
+        document.getElementById(`label-days-${exam.id}`).innerText = i18n[currentLang].days;
+        document.getElementById(`label-hours-${exam.id}`).innerText = i18n[currentLang].hours;
+        document.getElementById(`label-minutes-${exam.id}`).innerText = i18n[currentLang].minutes;
+        document.getElementById(`label-seconds-${exam.id}`).innerText = i18n[currentLang].seconds;
+      }
     });
   };
 
@@ -197,7 +222,6 @@ function startCountdowns() {
   countdownInterval = setInterval(tick, 1000);
 }
 
-// Pro-level Number Roll Animation
 function animateValue(obj, end, duration) {
   let startTimestamp = null;
   obj.dataset.animating = "true";
@@ -206,7 +230,6 @@ function animateValue(obj, end, duration) {
     if (!startTimestamp) startTimestamp = timestamp;
     const progress = Math.min((timestamp - startTimestamp) / duration, 1);
     
-    // Pro Cubic Ease-Out curve for an incredibly natural stop
     const easeProgress = 1 - Math.pow(1 - progress, 4);
     
     obj.innerText = Math.floor(easeProgress * end);
@@ -227,7 +250,7 @@ function setValue(id, value) {
   if (!el) return;
   
   if (el.dataset.animated !== "true" && el.dataset.animating !== "true") {
-    animateValue(el, value, 1500); // 1.5s pro-smooth roll up
+    animateValue(el, value, 1500); 
   } else if (el.dataset.animating !== "true" && el.innerText != value) {
     el.innerText = value; 
   }
