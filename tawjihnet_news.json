@@ -1,62 +1,92 @@
 [
   {
     "link": "https://www.tawjihnet.net/selection-convoques-ecrit-admissibilite-cnaem-encg-2026/",
-    "ar": "Sélection Convoques Ecrit Admissibilité CNAEM ENCG 2026",
-    "en": "Sélection Convoques Ecrit Admissibilité CNAEM ENCG 2026",
+    "ar": "تم دعوة الاختيار للأهلية الكتابية CNAEM ENCG 2026",
+    "en": "Selection Invited Written Eligibility CNAEM ENCG 2026",
     "fr": "Sélection Convoques Ecrit Admissibilité CNAEM ENCG 2026"
   },
   {
     "link": "https://www.tawjihnet.net/preselection-agregation-maroc-france-session-2026/",
-    "ar": "Présélection Agrégation Maroc France session 2026",
-    "en": "Présélection Agrégation Maroc France session 2026",
+    "ar": "الاختيار المسبق لالأقسام الأقسام التحضيرية المغرب فرنسا دورة 2026",
+    "en": "Preselection Aggregation Morocco France session 2026",
     "fr": "Présélection Agrégation Maroc France session 2026"
   },
   {
     "link": "https://www.tawjihnet.net/concours-lycee-militaire-kenitra-2026-2027/",
-    "ar": "Concours lycée Militaire Kenitra 2026 2027",
-    "en": "Concours lycée Militaire Kenitra 2026 2027",
+    "ar": "مباراة الثانوية العسكرية بالقنيطرة 2026 2027",
+    "en": "Kenitra Military High School Competition 2026 2027",
     "fr": "Concours lycée Militaire Kenitra 2026 2027"
   },
   {
     "link": "https://www.tawjihnet.net/resultats-definitifs-ifps-sante-2025-2026/",
-    "ar": "Résultats Définitifs IFPS Sante 2025 2026",
-    "en": "Résultats Définitifs IFPS Sante 2025 2026",
+    "ar": "النتائج النهائية للصحة IFPS 2025 2026",
+    "en": "IFPS Health Final Results 2025 2026",
     "fr": "Résultats Définitifs IFPS Sante 2025 2026"
   },
   {
     "link": "https://www.tawjihnet.net/test-sport-1081-agents-secours-protection-civile-2026/",
-    "ar": "Test Sport 1081 Agents Secours Protection Civile 2026",
-    "en": "Test Sport 1081 Agents Secours Protection Civile 2026",
+    "ar": "اختبار رياضي 1081 وكلاء إنقاذ الحماية المدنية 2026",
+    "en": "Sport Test 1081 Civil Protection Rescue Agents 2026",
     "fr": "Test Sport 1081 Agents Secours Protection Civile 2026"
   },
   {
     "link": "https://www.tawjihnet.net/concours-officiers-forces-auxiliaires-fa-2026-2027/",
-    "ar": "Concours officiers Forces Auxiliaires FA 2026 2027",
-    "en": "Concours officiers Forces Auxiliaires FA 2026 2027",
+    "ar": "مباراة ضباط القوات المساعدة 2026 2027",
+    "en": "FA Auxiliary Forces officer competition 2026 2027",
     "fr": "Concours officiers Forces Auxiliaires FA 2026 2027"
   },
   {
     "link": "https://www.tawjihnet.net/concours-arm-meknes-academie-officiers-2026-2027/",
-    "ar": "Concours ARM Meknes Académie Officiers 2026 2027",
-    "en": "Concours ARM Meknes Académie Officiers 2026 2027",
+    "ar": "مباراة أكاديمية الضباط ARM مكناس 2026 2027",
+    "en": "ARM Meknes Officers Academy Competition 2026 2027",
     "fr": "Concours ARM Meknes Académie Officiers 2026 2027"
   },
   {
     "link": "https://www.tawjihnet.net/concours-era-marrakech-officiers-2026-2027/",
-    "ar": "Concours ERA Marrakech Officiers 2026 2027",
-    "en": "Concours ERA Marrakech Officiers 2026 2027",
+    "ar": "مباراة إيرا مراكش للضباط 2026 2027",
+    "en": "ERA Marrakech Officers Competition 2026 2027",
     "fr": "Concours ERA Marrakech Officiers 2026 2027"
   },
   {
     "link": "https://www.tawjihnet.net/concours-ern-casa-casablanca-officiers-2026-2027/",
-    "ar": "Concours ERN Casa Casablanca officiers 2026 2027",
-    "en": "Concours ERN Casa Casablanca officiers 2026 2027",
+    "ar": "مباراة ضباط ERN الدار البيضاء 2026 2027",
+    "en": "ERN Casa Casablanca officers competition 2026 2027",
     "fr": "Concours ERN Casa Casablanca officiers 2026 2027"
   },
   {
     "link": "https://www.tawjihnet.net/concours-officiers-du-rang-marine-royale-2026-2027/",
-    "ar": "Concours officiers du Rang Marine Royale 2026 2027",
-    "en": "Concours officiers du Rang Marine Royale 2026 2027",
+    "ar": "مباراة رتبة ضابط البحرية الملكية 2026 2027",
+    "en": "Royal Navy Rank Officer Competition 2026 2027",
     "fr": "Concours officiers du Rang Marine Royale 2026 2027"
+  },
+  {
+    "link": "https://www.tawjihnet.net/concours-officiers-du-rang-far-terre-2026-2027/",
+    "ar": "مباراة ضباط الأراضي للقوات المسلحة الملكية 2026 2027",
+    "en": "FAR Land Officers Competition 2026 2027",
+    "fr": "Concours Officiers du Rang FAR Terre 2026 2027"
+  },
+  {
+    "link": "https://www.tawjihnet.net/concours-officiers-du-rang-forces-royales-air-2026-2027/",
+    "ar": "مباراة رتب ضباط القوات الجوية الملكية 2026 2027",
+    "en": "Royal Air Forces Ranked Officers Competition 2026 2027",
+    "fr": "Concours Officiers du rang Forces Royales Air 2026 2027"
+  },
+  {
+    "link": "https://www.tawjihnet.net/concours-erssm-sante-militaire-rabat-2026-2027/",
+    "ar": "المباراة الصحية العسكرية ERSSM الرباط 2026 2027",
+    "en": "ERSSM Military Health Competition Rabat 2026 2027",
+    "fr": "Concours ERSSM Sante Militaire Rabat 2026 2027"
+  },
+  {
+    "link": "https://www.tawjihnet.net/1bac-lycee-academie-arm-meknes-2026-2027/",
+    "ar": "1bac الأكاديمية الثانوية ARM مكناس 2026 2027",
+    "en": "1bac High School Academy ARM Meknes 2026 2027",
+    "fr": "1bac Lycée Académie ARM Meknès 2026 2027"
+  },
+  {
+    "link": "https://www.tawjihnet.net/concours-1-bac-marrakech-crpta-college-royal-era-2026/",
+    "ar": "المباراة 1 بكالوريوس مراكش CRPTA Royal College ERA 2026",
+    "en": "Competition 1 bac Marrakech CRPTA Royal College ERA 2026",
+    "fr": "Concours 1 bac Marrakech CRPTA Collège Royal ERA 2026"
   }
 ]
