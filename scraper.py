@@ -3,8 +3,9 @@ import feedparser
 import google.generativeai as genai
 import os
 import re
+import time  # <-- Added this to handle the API speed limit
 
-# Get the API key securely from GitHub Secrets (or local environment)
+# Get the API key securely from GitHub Secrets
 API_KEY = os.environ.get("GEMINI_API_KEY")
 
 if not API_KEY or API_KEY == "AIzaSyCmLrDbpFbW9tYd2_ojFm3pjMcOnZKoDxU":
@@ -32,7 +33,7 @@ def translate_with_gemini(raw_title):
         response = model.generate_content(prompt)
         text = response.text
         
-        # Clever way to extract JSON even if Gemini adds markdown or extra text
+        # Extract JSON safely
         json_match = re.search(r'\{.*\}', text, re.DOTALL)
         if json_match:
             clean_json = json_match.group(0)
@@ -41,8 +42,8 @@ def translate_with_gemini(raw_title):
             raise ValueError("No valid JSON found in Gemini response.")
             
     except Exception as e:
-        print(f"⚠️ Translation failed for '{raw_title[:20]}...': {e}")
-        # Fallback to original text if AI fails
+        print(f"⚠️ Translation failed: {e}")
+        # Fallback to original text if AI is blocked or fails
         return {"ar": raw_title, "en": raw_title, "fr": raw_title}
 
 def scrape_tawjihnet_ai():
@@ -53,12 +54,12 @@ def scrape_tawjihnet_ai():
         feed = feedparser.parse(rss_url)
         news_items = []
         
-        # CHANGED: Now fetching the top 15 news items instead of 5
         entries = feed.entries[:15]
         print(f"✅ Found {len(entries)} items to translate.")
         
-        for entry in entries:
-            print(f"🤖 Processing: {entry.title[:40]}...")
+        for index, entry in enumerate(entries):
+            print(f"🤖 Processing {index + 1}/15: {entry.title[:40]}...")
+            
             translations = translate_with_gemini(entry.title)
             
             news_items.append({
@@ -67,6 +68,10 @@ def scrape_tawjihnet_ai():
                 "en": translations.get("en", entry.title),
                 "fr": translations.get("fr", entry.title)
             })
+            
+            # THE FIX: Wait 4 seconds to avoid hitting the free API speed limit
+            if index < len(entries) - 1:
+                time.sleep(4)
 
         filepath = os.path.join(os.path.dirname(__file__), 'tawjihnet_news.json')
         with open(filepath, 'w', encoding='utf-8') as f:
