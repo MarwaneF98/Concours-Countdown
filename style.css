@@ -16,19 +16,14 @@ html {
   overscroll-behavior-y: none; 
 }
 
-/* Fix for Font Flicker - Body is hidden until fonts are ready */
+/* التعديل: جعل الموقع مرئياً بشكل افتراضي لتجنب الشاشة البيضاء */
 body {
   min-height: 100vh;
   min-height: 100dvh;
   color: white;
   font-family: 'Inter', sans-serif;
   position: relative;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-body.fonts-loaded {
-  opacity: 1;
+  background-color: #050505;
 }
 
 button, a {
@@ -53,6 +48,13 @@ button, a {
   margin: 0 auto; 
   padding: 50px 20px 120px 20px; 
   text-align: center;
+  /* أنيميشن بسيط عند الدخول */
+  animation: fadeInContainer 0.8s ease forwards;
+}
+
+@keyframes fadeInContainer {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .header {
@@ -65,7 +67,6 @@ button, a {
 }
 
 .header-text { text-align: left; }
-
 [dir="rtl"] { font-family: 'Cairo', 'Inter', sans-serif; }
 [dir="rtl"] .header-text { text-align: right; }
 
@@ -74,17 +75,11 @@ h1 {
   font-weight: 800;
   margin-bottom: 5px;
   line-height: 1.4;
-  opacity: 0;
-  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-
-[dir="rtl"] h1 { line-height: 1.8; padding-bottom: 8px; }
 
 .header-text p {
   font-size: 16px;
   color: #a0a0a0;
-  opacity: 0;
-  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
 }
 
 /* 4. Language Switcher Squares */
@@ -96,7 +91,7 @@ h1 {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: white; font-weight: 700; cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: all 0.3s ease;
 }
 .lang-btn.active { background: white; color: black; border-color: white; }
 
@@ -112,12 +107,8 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 20px;
   padding: 30px 20px;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
-  display: flex; flex-direction: column; opacity: 0; 
-  animation: proRevealCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: flex; flex-direction: column;
 }
-
-.exam-card:hover { transform: translateY(-8px); background: rgba(255, 255, 255, 0.07); }
 
 .exam-title { font-size: 22px; font-weight: 700; margin-bottom: 5px; }
 [dir="rtl"] .exam-title { line-height: 1.8; }
@@ -135,7 +126,7 @@ h1 {
 .number-mini { font-size: 24px; font-weight: 800; }
 .label-mini { font-size: 10px; color: #888; margin-top: 4px; text-transform: uppercase; }
 
-/* 7. Live News Section with 2 Columns on Desktop */
+/* 7. Live News Section (2 Columns Desktop) */
 .news-section {
   margin-top: 50px; background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 30px;
@@ -153,7 +144,6 @@ h1 {
 .news-item { padding: 15px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.05); text-align: left; }
 [dir="rtl"] .news-item { text-align: right; }
 .news-link { color: #d1d5db; text-decoration: none; font-size: 15px; line-height: 1.5; display: block; }
-.news-link:hover { color: #4ade80; }
 
 /* 8. Animations */
 @keyframes pulse-red {
@@ -162,14 +152,13 @@ h1 {
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
 }
 
-@keyframes proRevealTitle { 0% { opacity: 0; transform: translateY(-20px); } 100% { opacity: 1; transform: translateY(0); } }
-@keyframes proRevealCard { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+.content-fade { transition: opacity 0.35s ease; opacity: 1; }
+.content-hidden { opacity: 0 !important; }
 
-.content-fade { transition: opacity 0.35s ease, transform 0.35s ease; opacity: 1; }
-.content-hidden { opacity: 0 !important; transform: translateY(10px) !important; }
+.arrived-msg { font-weight: 800; color: #4ade80; animation: pulse 2s infinite; }
 
-.footer { position: fixed; bottom: 0; left: 0; right: 0; text-align: center; font-size: 13px; color: #666; padding: 40px 0 20px 0; background: linear-gradient(to top, #000, transparent); pointer-events: none; z-index: 10; }
-.footer a { pointer-events: auto; color: #aaa; text-decoration: none; }
+.footer { position: relative; margin-top: -60px; padding-bottom: 30px; text-align: center; font-size: 13px; color: #666; z-index: 10; }
+.footer a { color: #aaa; text-decoration: none; pointer-events: auto; }
 
 @media (max-width: 768px) {
   .header { flex-direction: column; text-align: center; }
