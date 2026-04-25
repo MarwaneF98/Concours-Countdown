@@ -1,41 +1,58 @@
-// Dictionary for Multi-Language Support
+// 1. General UI Text Dictionary (Removed hardcoded time units)
 const i18n = {
   en: {
     mainTitle: "Moroccan Exams", mainSubtitle: "Track every major concours and exam",
-    days: "DAYS", hours: "HOURS", minutes: "MIN", seconds: "SEC",
     builtBy: "Built by", countdownTo: "Countdown to",
     arrived: "IT'S EXAM DAY! GOOD LUCK!", portal: "Official Portal",
     newsTitle: "Live Updates & News"
   },
   fr: {
     mainTitle: "Examens Marocains", mainSubtitle: "Suivez chaque concours et examen majeur",
-    days: "JOURS", hours: "HEURES", minutes: "MIN", seconds: "SEC",
     builtBy: "Créé par", countdownTo: "Prévu pour le",
     arrived: "C'EST LE JOUR J ! BON COURAGE !", portal: "Portail Officiel",
     newsTitle: "Actualités en Direct"
   },
   ar: {
     mainTitle: "الامتحانات المغربية", mainSubtitle: "تتبع كل المباريات والامتحانات الوطنية",
-    days: "أيام", hours: "ساعات", minutes: "دقيقة", seconds: "ثانية",
     builtBy: "تم التطوير بواسطة", countdownTo: "العد التنازلي لـ",
     arrived: "لقد حان يوم الامتحان! بالتوفيق!", portal: "البوابة الرسمية",
     newsTitle: "آخر المستجدات الحية"
   }
 };
 
-// Arabic Pluralization Rules Dictionary (Without Diacritics)
-const arPlurals = {
-  days: { zero: 'أيام', one: 'يوم', two: 'يومان', few: 'أيام', many: 'يوما', other: 'يوم' },
-  hours: { zero: 'ساعات', one: 'ساعة', two: 'ساعتان', few: 'ساعات', many: 'ساعة', other: 'ساعة' },
-  minutes: { zero: 'دقائق', one: 'دقيقة', two: 'دقيقتان', few: 'دقائق', many: 'دقيقة', other: 'دقيقة' },
-  seconds: { zero: 'ثواني', one: 'ثانية', two: 'ثانيتان', few: 'ثواني', many: 'ثانية', other: 'ثانية' }
+// 2. Universal Pluralization Dictionary
+const pluralsDict = {
+  en: {
+    days: { one: 'DAY', other: 'DAYS' },
+    hours: { one: 'HOUR', other: 'HOURS' },
+    minutes: { one: 'MIN', other: 'MINS' },
+    seconds: { one: 'SEC', other: 'SECS' }
+  },
+  fr: {
+    days: { one: 'JOUR', other: 'JOURS' },
+    hours: { one: 'HEURE', other: 'HEURES' },
+    minutes: { one: 'MIN', other: 'MINS' },
+    seconds: { one: 'SEC', other: 'SECS' }
+  },
+  ar: {
+    days: { zero: 'أيام', one: 'يوم', two: 'يومان', few: 'أيام', many: 'يوما', other: 'يوم' },
+    hours: { zero: 'ساعات', one: 'ساعة', two: 'ساعتان', few: 'ساعات', many: 'ساعة', other: 'ساعة' },
+    minutes: { zero: 'دقائق', one: 'دقيقة', two: 'دقيقتان', few: 'دقائق', many: 'دقيقة', other: 'دقيقة' },
+    seconds: { zero: 'ثواني', one: 'ثانية', two: 'ثانيتان', few: 'ثواني', many: 'ثانية', other: 'ثانية' }
+  }
 };
 
-const arPluralRules = new Intl.PluralRules('ar-MA');
+// 3. Language Rules Engines
+const pluralRules = {
+  en: new Intl.PluralRules('en-US'),
+  fr: new Intl.PluralRules('fr-FR'),
+  ar: new Intl.PluralRules('ar-MA')
+};
 
-function getArabicLabel(value, unit) {
-  const form = arPluralRules.select(value); 
-  return arPlurals[unit][form];
+// 4. Dynamic Label Generator
+function getDynamicLabel(lang, value, unit) {
+  const form = pluralRules[lang].select(value); 
+  return pluralsDict[lang][unit][form] || pluralsDict[lang][unit]['other'];
 }
 
 // Official Moroccan Arabic Month Names
@@ -190,19 +207,19 @@ function renderExams() {
       <div class="countdown-mini" id="countdown-${exam.id}">
         <div class="time-box-mini">
           <div id="days-${exam.id}" class="number-mini">0</div>
-          <div id="label-days-${exam.id}" class="label-mini">${i18n[currentLang].days}</div>
+          <div id="label-days-${exam.id}" class="label-mini">${getDynamicLabel(currentLang, 0, 'days')}</div>
         </div>
         <div class="time-box-mini">
           <div id="hours-${exam.id}" class="number-mini">0</div>
-          <div id="label-hours-${exam.id}" class="label-mini">${i18n[currentLang].hours}</div>
+          <div id="label-hours-${exam.id}" class="label-mini">${getDynamicLabel(currentLang, 0, 'hours')}</div>
         </div>
         <div class="time-box-mini">
           <div id="minutes-${exam.id}" class="number-mini">0</div>
-          <div id="label-minutes-${exam.id}" class="label-mini">${i18n[currentLang].minutes}</div>
+          <div id="label-minutes-${exam.id}" class="label-mini">${getDynamicLabel(currentLang, 0, 'minutes')}</div>
         </div>
         <div class="time-box-mini">
           <div id="seconds-${exam.id}" class="number-mini">0</div>
-          <div id="label-seconds-${exam.id}" class="label-mini">${i18n[currentLang].seconds}</div>
+          <div id="label-seconds-${exam.id}" class="label-mini">${getDynamicLabel(currentLang, 0, 'seconds')}</div>
         </div>
       </div>
     `;
@@ -238,17 +255,11 @@ function startCountdowns() {
       setValue(`minutes-${exam.id}`, minutes);
       setValue(`seconds-${exam.id}`, seconds);
 
-      if (currentLang === "ar") {
-        document.getElementById(`label-days-${exam.id}`).innerText = getArabicLabel(days, 'days');
-        document.getElementById(`label-hours-${exam.id}`).innerText = getArabicLabel(hours, 'hours');
-        document.getElementById(`label-minutes-${exam.id}`).innerText = getArabicLabel(minutes, 'minutes');
-        document.getElementById(`label-seconds-${exam.id}`).innerText = getArabicLabel(seconds, 'seconds');
-      } else {
-        document.getElementById(`label-days-${exam.id}`).innerText = i18n[currentLang].days;
-        document.getElementById(`label-hours-${exam.id}`).innerText = i18n[currentLang].hours;
-        document.getElementById(`label-minutes-${exam.id}`).innerText = i18n[currentLang].minutes;
-        document.getElementById(`label-seconds-${exam.id}`).innerText = i18n[currentLang].seconds;
-      }
+      // Universal pluralization update
+      document.getElementById(`label-days-${exam.id}`).innerText = getDynamicLabel(currentLang, days, 'days');
+      document.getElementById(`label-hours-${exam.id}`).innerText = getDynamicLabel(currentLang, hours, 'hours');
+      document.getElementById(`label-minutes-${exam.id}`).innerText = getDynamicLabel(currentLang, minutes, 'minutes');
+      document.getElementById(`label-seconds-${exam.id}`).innerText = getDynamicLabel(currentLang, seconds, 'seconds');
     });
   };
 
