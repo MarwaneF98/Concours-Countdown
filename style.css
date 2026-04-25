@@ -67,7 +67,8 @@ body {
 
 /* 4. Typography, RTL, & Pro Title Animations */
 [dir="rtl"] {
-  font-family: 'Cairo', 'Inter', sans-serif; 
+  /* FIX 1: Removed 'Inter' so the browser doesn't try to apply English spacing to Arabic system fonts while Cairo loads */
+  font-family: 'Cairo', system-ui, -apple-system, sans-serif; 
 }
 
 [dir="rtl"] .header-text {
@@ -80,7 +81,8 @@ h1 {
   margin-bottom: 5px;
   line-height: 1.4;
   opacity: 0;
-  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* FIX 2: Added a 0.15s delay to keep text invisible while the font downloads */
+  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
 }
 
 [dir="rtl"] h1 {
@@ -93,7 +95,8 @@ h1 {
   font-size: 16px;
   color: #a0a0a0;
   opacity: 0;
-  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  /* FIX 3: Adjusted delay to 0.3s to maintain the staggered fade-in effect */
+  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
 }
 
 /* 5. Language Switcher Squares */
@@ -146,7 +149,8 @@ h1 {
   display: flex;
   flex-direction: column;
   opacity: 0; 
-  animation: proRevealCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* Also added a tiny delay here so cards don't flash default fonts */
+  animation: proRevealCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
 
 .exam-card:hover {
