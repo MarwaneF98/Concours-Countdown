@@ -64,7 +64,7 @@ const moroccanMonths = {
 
 let examsDB = [];
 let newsDB = [];
-let currentLang = "ar";
+let currentLang = "fr";
 let countdownInterval;
 
 const htmlTag = document.getElementById("htmlTag");
