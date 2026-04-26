@@ -1,4 +1,31 @@
-/* 1. Global Reset & Base Styles */
+/* ==========================================================================
+   1. CSS Variables & Global Reset
+   ========================================================================== */
+:root {
+  /* Colors */
+  --bg-dark: #050505;
+  --bg-gradient-start: #16161d;
+  --text-main: #ffffff;
+  --text-muted: #a0a0a0;
+  --text-darker: #888888;
+  --accent-green: #4ade80;
+  --accent-red: #ff4757;
+  
+  /* UI Elements */
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-bg-hover: rgba(255, 255, 255, 0.07);
+  --card-border: rgba(255, 255, 255, 0.05);
+  --card-border-hover: rgba(255, 255, 255, 0.15);
+  --btn-bg: rgba(255, 255, 255, 0.05);
+  --btn-bg-hover: rgba(255, 255, 255, 0.15);
+  
+  /* Typography & Timing */
+  --font-en: 'Inter', sans-serif;
+  --font-ar: 'Cairo', system-ui, -apple-system, sans-serif;
+  --transition-fast: 0.3s ease;
+  --transition-pro: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +38,7 @@ html, body {
 }
 
 html {
-  background-color: #050505; 
+  background-color: var(--bg-dark); 
   scroll-behavior: smooth;
   overscroll-behavior-y: none; 
 }
@@ -25,25 +52,22 @@ button, a {
 body {
   min-height: 100vh;
   min-height: 100dvh;
-  color: white;
-  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+  font-family: var(--font-en);
   position: relative;
 }
 
-/* 2. The Background Plate */
+/* ==========================================================================
+   2. Background & Layout Containers
+   ========================================================================== */
 .background-plate {
   position: fixed;
-  top: 0; 
-  left: 0; 
-  width: 100vw; 
-  height: 100vh;
-  height: 100dvh;
-  background: radial-gradient(circle at top left, #16161d, #050505 80%);
+  inset: 0; /* Shorthand for top/right/bottom/left 0 */
+  background: radial-gradient(circle at top left, var(--bg-gradient-start), var(--bg-dark) 80%);
   z-index: -1;
   pointer-events: none;
 }
 
-/* 3. Layout Containers */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -52,6 +76,9 @@ body {
   text-align: center;
 }
 
+/* ==========================================================================
+   3. Header & Typography
+   ========================================================================== */
 .header {
   display: flex;
   justify-content: space-between;
@@ -65,15 +92,6 @@ body {
   text-align: left;
 }
 
-/* 4. Typography & RTL */
-[dir="rtl"] {
-  font-family: 'Cairo', system-ui, -apple-system, sans-serif; 
-}
-
-[dir="rtl"] .header-text {
-  text-align: right;
-}
-
 h1 {
   font-size: 38px;
   font-weight: 800;
@@ -82,32 +100,30 @@ h1 {
   opacity: 0; /* Stays hidden until fonts load */
 }
 
+.header-text p {
+  font-size: 16px;
+  color: var(--text-muted);
+  opacity: 0; /* Stays hidden until fonts load */
+}
+
+/* RTL Typography Overrides */
+[dir="rtl"] {
+  font-family: var(--font-ar); 
+}
+
+[dir="rtl"] .header-text {
+  text-align: right;
+}
+
 [dir="rtl"] h1 {
   line-height: 1.8; 
   padding-bottom: 8px;
   padding-top: 5px;
 }
 
-.header-text p {
-  font-size: 16px;
-  color: #a0a0a0;
-  opacity: 0; /* Stays hidden until fonts load */
-}
-
-/* 5. Trigger Animations ONLY when fonts are loaded */
-.fonts-loaded h1 {
-  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.fonts-loaded .header-text p {
-  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-}
-
-.fonts-loaded .exam-card {
-  animation: proRevealCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* 6. Language Switcher Squares */
+/* ==========================================================================
+   4. Language Switcher Squares
+   ========================================================================== */
 .lang-squares {
   display: flex;
   gap: 10px;
@@ -120,27 +136,29 @@ h1 {
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  background: var(--btn-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-main);
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .lang-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--btn-bg-hover);
   transform: translateY(-2px);
 }
 
 .lang-btn.active {
-  background: white;
-  color: black;
-  border-color: white;
+  background: var(--text-main);
+  color: #000;
+  border-color: var(--text-main);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
-/* 7. Exams Grid System */
+/* ==========================================================================
+   5. Exams Grid System & Cards
+   ========================================================================== */
 .exams-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -148,12 +166,12 @@ h1 {
 }
 
 .exam-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 20px;
   padding: 30px 20px;
-  will-change: transform, opacity; 
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+  will-change: transform, opacity, background-color; 
+  transition: transform var(--transition-pro), background var(--transition-pro), border-color var(--transition-pro);
   display: flex;
   flex-direction: column;
   opacity: 0; /* Stays hidden until fonts load */
@@ -161,8 +179,8 @@ h1 {
 
 .exam-card:hover {
   transform: translateY(-8px) scale(1.01);
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--card-bg-hover);
+  border-color: var(--card-border-hover);
 }
 
 .exam-title {
@@ -179,11 +197,10 @@ h1 {
 
 .exam-subtitle {
   font-size: 13px;
-  color: #888;
+  color: var(--text-darker);
   margin-bottom: 15px;
 }
 
-/* 8. Links & Buttons */
 .portal-link {
   display: inline-flex;
   align-items: center;
@@ -193,19 +210,21 @@ h1 {
   color: #a8a8a8;
   text-decoration: none;
   margin-bottom: 25px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--btn-bg);
   padding: 8px 14px;
   border-radius: 8px;
   align-self: center;
-  transition: all 0.3s ease;
+  transition: var(--transition-fast);
 }
 
 .portal-link:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.15);
+  color: var(--text-main);
+  background: var(--btn-bg-hover);
 }
 
-/* 9. Countdown System */
+/* ==========================================================================
+   6. Countdown System
+   ========================================================================== */
 .countdown-mini {
   display: flex;
   justify-content: center;
@@ -229,7 +248,9 @@ h1 {
   min-width: 0; 
 }
 
-[dir="rtl"] .time-box-mini { width: auto; }
+[dir="rtl"] .time-box-mini { 
+  width: auto; 
+}
 
 .number-mini {
   font-size: 24px; 
@@ -241,7 +262,7 @@ h1 {
 
 .label-mini {
   font-size: 10px;
-  color: #888;
+  color: var(--text-darker);
   margin-top: 4px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -250,16 +271,17 @@ h1 {
 [dir="rtl"] .label-mini {
   letter-spacing: 0 !important;
   line-height: 1.6;
-  font-size: 10px; 
   margin-top: 2px;
   text-transform: none; 
 }
 
-/* 10. Live News Feed */
+/* ==========================================================================
+   7. Live News Feed
+   ========================================================================== */
 .news-section {
   margin-top: 50px;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
   border-radius: 20px;
   padding: 30px;
   text-align: left;
@@ -274,7 +296,7 @@ h1 {
   align-items: center;
   gap: 12px;
   margin-bottom: 25px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--card-border);
   padding-bottom: 15px;
 }
 
@@ -287,16 +309,10 @@ h1 {
 .live-indicator {
   width: 12px;
   height: 12px;
-  background-color: #ff4757;
+  background-color: var(--accent-red);
   border-radius: 50%;
   animation: pulse-red 1.5s infinite;
   box-shadow: 0 0 10px rgba(255, 71, 87, 0.6);
-}
-
-@keyframes pulse-red {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
 }
 
 .news-list {
@@ -313,8 +329,8 @@ h1 {
 
 .news-item {
   padding: 15px 0;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
-  transition: transform 0.3s ease;
+  border-bottom: 1px dashed var(--card-border);
+  transition: transform var(--transition-fast);
 }
 
 .news-item:hover {
@@ -331,22 +347,24 @@ h1 {
   font-size: 15px;
   line-height: 1.5;
   display: block;
-  transition: color 0.3s ease;
+  transition: color var(--transition-fast);
   text-align: left;
 }
 
 .news-link:hover {
-  color: #4ade80;
+  color: var(--accent-green);
 }
 
 [dir="rtl"] .news-link {
   text-align: right; 
 }
 
-/* 11. Footer & Misc */
+/* ==========================================================================
+   8. Footer & Status Messages
+   ========================================================================== */
 .arrived-msg {
   font-weight: 800;
-  color: #4ade80;
+  color: var(--accent-green);
   letter-spacing: 1px;
   animation: pulse 2s infinite;
   text-align: center;
@@ -374,12 +392,12 @@ h1 {
   text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding-bottom: 2px;
-  transition: all 0.3s ease;
+  transition: all var(--transition-fast);
 }
 
 .footer a:hover {
-  color: white;
-  border-bottom: 1px solid white;
+  color: var(--text-main);
+  border-bottom-color: var(--text-main);
 }
 
 [dir="rtl"] .footer {
@@ -388,15 +406,19 @@ h1 {
   font-size: 14px; 
 }
 
-/* 12. Pro Animations */
-@keyframes proRevealTitle {
-  0% { opacity: 0; transform: translateY(-20px); filter: blur(8px); }
-  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+/* ==========================================================================
+   9. Animations & Interactive States
+   ========================================================================== */
+.fonts-loaded h1 {
+  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes proRevealCard {
-  0% { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(5px); }
-  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+.fonts-loaded .header-text p {
+  animation: proRevealTitle 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+.fonts-loaded .exam-card {
+  animation: proRevealCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .content-fade {
@@ -408,17 +430,47 @@ h1 {
 .content-hidden {
   opacity: 0 !important;
   transform: translateY(10px) scale(0.98) !important;
+  pointer-events: none; /* Added to prevent interaction while hidden */
+}
+
+/* Keyframes */
+@keyframes proRevealTitle {
+  0% { opacity: 0; transform: translateY(-20px); filter: blur(8px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes proRevealCard {
+  0% { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(5px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
 @keyframes pulse {
-  0% { opacity: 1; }
+  0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
-  100% { opacity: 1; }
 }
 
+@keyframes pulse-red {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+}
+
+/* ==========================================================================
+   10. Media Queries
+   ========================================================================== */
 @media (max-width: 768px) {
-  .header { flex-direction: column; text-align: center; justify-content: center; }
-  .header-text { text-align: center; }
-  [dir="rtl"] .header-text { text-align: center; }
-  .exams-grid { grid-template-columns: 1fr; }
+  .header { 
+    flex-direction: column; 
+    text-align: center; 
+    justify-content: center; 
+  }
+  
+  .header-text, 
+  [dir="rtl"] .header-text { 
+    text-align: center; 
+  }
+  
+  .exams-grid { 
+    grid-template-columns: 1fr; 
+  }
 }
