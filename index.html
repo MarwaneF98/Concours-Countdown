@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" id="htmlTag" dir="rtl">
+<html lang="fr" id="htmlTag" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Moroccan Exams Countdown</title>
+  <title>Examens Marocains</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="style.css">
 
   <script>
+    // Prevents text from flashing unstyled before fonts load
     document.fonts.ready.then(function() {
       document.documentElement.classList.add('fonts-loaded');
     });
@@ -29,14 +30,14 @@
   
   <div class="header content-fade">
     <div class="header-text">
-      <h1 id="main-title">الامتحانات المغربية</h1>
-      <p id="main-subtitle">تتبع كل المباريات والامتحانات الوطنية</p>
+      <h1 id="main-title">Examens Marocains</h1>
+      <p id="main-subtitle">Suivez chaque concours et examen majeur</p>
     </div>
     
     <div class="lang-squares">
       <button class="lang-btn" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="fr">FR</button>
-      <button class="lang-btn active" data-lang="ar">AR</button>
+      <button class="lang-btn active" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
     </div>
   </div>
 
@@ -45,7 +46,7 @@
   <div class="news-section content-fade content-hidden" id="news-section">
     <div class="news-header">
       <div class="live-indicator"></div>
-      <h2 id="news-title">آخر المستجدات الحية</h2>
+      <h2 id="news-title">Actualités en Direct</h2>
     </div>
     <div class="news-list" id="news-container"></div>
   </div>
@@ -53,7 +54,7 @@
 </div>
 
 <div class="footer">
-  <span id="footer-text">تم التطوير بواسطة</span> 
+  <span id="footer-text">Créé par</span> 
   <a href="https://instagram.com/marwanef98" target="_blank">marwanef98</a> & 
   <a href="https://instagram.com/z3kri" target="_blank">z3kri</a>
 </div>
