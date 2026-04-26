@@ -189,10 +189,12 @@ h1 {
   margin-bottom: 5px;
   line-height: 1.5;
   
-  /* Locks the title height across all languages so cards remain uniform */
+  /* Locks the title height and PERFECTLY CENTERS it */
   min-height: 66px; 
   display: flex;
-  align-items: flex-start;
+  align-items: center; /* Centers vertically */
+  justify-content: center; /* Centers horizontally */
+  text-align: center; /* Centers text if it breaks to a second line */
 }
 
 [dir="rtl"] .exam-title {
@@ -204,6 +206,7 @@ h1 {
   font-size: 13px;
   color: var(--text-darker);
   margin-bottom: 15px;
+  text-align: center; /* Centers the subtitle */
 }
 
 .portal-link {
@@ -216,10 +219,14 @@ h1 {
   text-decoration: none;
   margin-bottom: 25px;
   background: var(--btn-bg);
-  padding: 8px 14px;
   border-radius: 8px;
   align-self: center;
   transition: var(--transition-fast);
+  
+  /* STRICT FIXED HEIGHT so Arabic and English are exactly the same size */
+  padding: 0 14px; 
+  height: 34px; 
+  box-sizing: border-box;
 }
 
 .portal-link:hover {
