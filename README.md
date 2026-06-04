@@ -73,6 +73,3 @@ python scraper.py
  * Developed and maintained by **@marwanef98** & **@z3kri**.
  * Built to serve the Moroccan student community. Best of luck to everyone preparing for their exams!
 *If you find this project helpful, consider giving it a ⭐!*
-```
-
-```
