@@ -1,11 +1,21 @@
+<div align="center">
+
 # 🎓 Moroccan Exams & Concours Countdown
 
-![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?logo=javascript&logoColor=black)
-![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python&logoColor=white)
-![Automation](https://img.shields.io/badge/Automation-GitHub%20Actions-2088FF?logo=github-actions&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
+![Made in Morocco](https://img.shields.io/badge/Made%20in-Morocco-c1272d?style=for-the-badge)
+![HTML5](https://img.shields.io/badge/Frontend-HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/Styling-CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/Logic-Vanilla%20JS-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+![Python](https://img.shields.io/badge/Scraper-Python%203.10-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/Automation-GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+![JSON](https://img.shields.io/badge/Database-JSON-000000?style=for-the-badge&logo=json&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 A sleek, multilingual, and fully automated web application designed to help Moroccan students track national exams (Baccalaureate) and major higher education concours (Grandes Écoles, CPGE, etc.). 
+
+</div>
+
+---
 
 ## ✨ Key Features
 
@@ -77,6 +87,6 @@ python scraper.py
 
 ```
 ## 🤝 Credits & Authors
- * Developed and maintained by @marwanef98 & **@z3kri**.
+ * Developed and maintained by @marwanef98 (❄️ Snowflake) & **@z3kri**.
  * Built to serve the Moroccan student community. Best of luck to everyone preparing for their exams!
 *If you find this project helpful, consider giving it a ⭐!*
