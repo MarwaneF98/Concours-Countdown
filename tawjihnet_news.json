@@ -1,5 +1,29 @@
 [
   {
+    "link": "https://www.tawjihnet.net/inscription-concours-ispits-2026-2027/",
+    "ar": "التسجيل في مسابقة ISPITS 2026 2027",
+    "en": "registration for ISPITS Competition 2026 2027",
+    "fr": "inscription Concours ISPITS 2026 2027"
+  },
+  {
+    "link": "https://www.tawjihnet.net/concours-aat-casa-calligraphie-2026-2027/",
+    "ar": "مسابقة AAT Casa للخط 2026 2027",
+    "en": "AAT Casa Calligraphy Competition 2026 2027",
+    "fr": "Concours AAT Casa Calligraphie 2026 2027"
+  },
+  {
+    "link": "https://www.tawjihnet.net/ipsm-prince-sidi-mohammed-agricole-ts-2026-2027/",
+    "ar": "IPSM الأمير سيدي محمد الزراعي TS 2026 2027",
+    "en": "IPSM Prince Sidi Mohammed Agricole TS 2026 2027",
+    "fr": "IPSM Prince Sidi Mohammed Agricole TS 2026 2027"
+  },
+  {
+    "link": "https://www.tawjihnet.net/concours-qualification-agricole-sidi-allal-tazi-2026-2027/",
+    "ar": "مسابقة التأهيل الزراعي سيدي علال التازي 2026 2027",
+    "en": "Sidi Allal Tazi Agricultural Qualification Competition 2026 2027",
+    "fr": "Concours Qualification Agricole Sidi Allal Tazi 2026 2027"
+  },
+  {
     "link": "https://www.tawjihnet.net/resultats-definitifs-concours-agregation-2026/",
     "ar": "النتائج النهائية لمسابقة التجميع 2026",
     "en": "Final Results of the 2026 Aggregation Competition",
@@ -16,12 +40,6 @@
     "ar": "مسابقة IFTL النواصر للمهن اللوجستية للنقل 2026",
     "en": "IFTL Nouaceur Transport Logistics Professions Competition 2026",
     "fr": "Concours IFTL Nouaceur Métiers Transport Logistique 2026"
-  },
-  {
-    "link": "https://www.tawjihnet.net/inscription-concours-ispits-2026-2027/",
-    "ar": "التسجيل في مسابقة ISPITS 2026 2027",
-    "en": "registration for ISPITS Competition 2026 2027",
-    "fr": "inscription Concours ISPITS 2026 2027"
   },
   {
     "link": "https://www.tawjihnet.net/techniciens-sp-agricoles-itsa-taroudant-2026-2027/",
@@ -100,23 +118,5 @@
     "ar": "Concours IRTSE Foarat Institut Royal TS 2026 2027",
     "en": "Concours IRTSE Fouarat Institut Royal TS 2026 2027",
     "fr": "Concours IRTSE Fouarat Institut Royal TS 2026 2027"
-  },
-  {
-    "link": "https://www.tawjihnet.net/concours-qualification-irtse-fouarat-2026-2027/",
-    "ar": "مؤهلات المسابقة IRTSE الفوارات 2026 2027",
-    "en": "Concours Qualification IRTSE Fouarat 2026 2027",
-    "fr": "Concours Qualification IRTSE Fouarat 2026 2027"
-  },
-  {
-    "link": "https://www.tawjihnet.net/concours-isic-rabat-inscription-2026-2027/",
-    "ar": "التسجيل في مسابقة ISIC الرباط 2026 2027",
-    "en": "ISIC Rabat competition registration 2026 2027",
-    "fr": "Concours ISIC Rabat inscription 2026 2027"
-  },
-  {
-    "link": "https://www.tawjihnet.net/concours-ts-agriculture-itsa-zarib-berkane-2026-2027/",
-    "ar": "مسابقة TS الزراعية ITSA Zarib Berkane 2026 2027",
-    "en": "TS Agriculture ITSA Zarib Berkane Competition 2026 2027",
-    "fr": "Concours TS Agriculture ITSA Zarib Berkane 2026 2027"
   }
 ]
