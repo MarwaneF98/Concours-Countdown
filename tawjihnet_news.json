@@ -1,5 +1,11 @@
 [
   {
+    "link": "https://www.tawjihnet.net/resultats-definitifs-ensam-maroc-2026-2027/",
+    "ar": "النتائج النهائية انسام المغرب 2026 2027",
+    "en": "Final Results ENSAM Morocco 2026 2027",
+    "fr": "Résultats Définitifs ENSAM Maroc 2026 2027"
+  },
+  {
     "link": "https://www.tawjihnet.net/preselection-cha-agadir-techniciens-specialises-2026-2027/",
     "ar": "الاختيار المسبق للتقنيين المتخصصين CHA أغادير 2026 2027",
     "en": "Preselection CHA Agadir Specialized Technicians 2026 2027",
@@ -112,11 +118,5 @@
     "ar": "النتائج الاختيار الأولي ISPITS 2026 2027",
     "en": "Results ISPITS Preselection 2026 2027",
     "fr": "Résultats Présélection ISPITS 2026 2027"
-  },
-  {
-    "link": "https://www.tawjihnet.net/resultats-definitifs-bac-dar-el-hadith-el-hassania-2026-2027/",
-    "ar": "النتائج النهائية بكالوريا دار الحديث الحسنية 2026 2027",
-    "en": "Final Results Bac Dar El Hadith El Hassania 2026 2027",
-    "fr": "Résultats Définitifs Bac Dar El Hadith El Hassania 2026 2027"
   }
 ]
