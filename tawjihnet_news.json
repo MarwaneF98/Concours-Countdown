@@ -1,5 +1,17 @@
 [
   {
+    "link": "https://www.tawjihnet.net/concours-istp-travaux-publics-2026-2027/",
+    "ar": "مسابقة ISTP للأشغال العامة 2026 2027",
+    "en": "ISTP Public Works Competition 2026 2027",
+    "fr": "Concours ISTP Travaux Publics 2026 2027"
+  },
+  {
+    "link": "https://www.tawjihnet.net/resultats-definitifs-apesa-rabat-2026-2027/",
+    "ar": "النتائج النهائية APESA الرباط 2026 2027",
+    "en": "Final Results APESA Rabat 2026 2027",
+    "fr": "Résultats Définitifs APESA Rabat 2026 2027"
+  },
+  {
     "link": "https://www.tawjihnet.net/resultats-preselection-inas-tanger-2026-2027/",
     "ar": "نتائج الاختيار الأولي لـ INAS طنجة 2026 2027",
     "en": "INAS Tangier Preselection Results 2026 2027",
@@ -30,12 +42,6 @@
     "fr": "Résultats Sélection IMT Touissit 2026 2027"
   },
   {
-    "link": "https://www.tawjihnet.net/resultats-definitifs-apesa-rabat-2026-2027/",
-    "ar": "النتائج النهائية APESA الرباط 2026 2027",
-    "en": "Final Results APESA Rabat 2026 2027",
-    "fr": "Résultats Définitifs APESA Rabat 2026 2027"
-  },
-  {
     "link": "https://www.tawjihnet.net/resultats-definitifs-ismac-rabat-dakhla-2026-2027/",
     "ar": "النتائج النهائية ISMAC الرباط الداخلة 2026 2027",
     "en": "Final Results ISMAC Rabat Dakhla 2026 2027",
@@ -55,7 +61,7 @@
   },
   {
     "link": "https://www.tawjihnet.net/resultats-definitifs-eniad-berkane-cycle-preparatoire-2026-2027/",
-    "ar": "النتائج النهائية دورة إنياد بركان التحضيرية 2026 2027",
+    "ar": "النتائج النهائية دورة انياد بركان التحضيرية 2026 2027",
     "en": "Final Results ENIAD Berkane Preparatory Cycle 2026 2027",
     "fr": "Résultats Définitifs ENIAD Berkane Cycle Préparatoire 2026 2027"
   },
@@ -112,11 +118,5 @@
     "ar": "النتائج النهائية ENTA الداخلة العيون 2026 2027",
     "en": "Final Results ENTA Dakhla Laayoune 2026 2027",
     "fr": "Résultats Définitifs ENTA Dakhla Laayoune 2026 2027"
-  },
-  {
-    "link": "https://www.tawjihnet.net/dut-protheses-dentaires-fmd-rabat-2026-2027/",
-    "ar": "DUT الأطراف الاصطناعية للأسنان FMD الرباط 2026 2027",
-    "en": "DUT Dental Prostheses FMD Rabat 2026 2027",
-    "fr": "DUT Prothèses Dentaires FMD Rabat 2026 2027"
   }
 ]
